@@ -7,6 +7,7 @@
     "light": "#432dd7",
     "dark": "#432dd7"
   },
+  "description": "Documentation for Sonicverse open-source software — self-hosted audio streaming, live radio infrastructure, and tools for independent media.",
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
@@ -105,15 +106,22 @@
         ]
       },
       {
-        "header": "Powered by",
+        "header": "Open source",
         "items": [
           {
-            "label": "Mintlify",
-            "href": "https://mintlify.com"
+            "label": "Contribute",
+            "href": "https://github.com/sonicverse-eu/docs"
           }
         ]
       }
     ]
   },
-  "logo": "/images/Artboard1.png"
+  "logo": "/images/Artboard1.png",
+  "seo": {
+    "metatags": {
+      "og:site_name": "Sonicverse Docs",
+      "og:description": "Documentation for Sonicverse open-source software — self-hosted audio streaming, live radio infrastructure, and tools for independent media.",
+      "og:locale": "en_US"
+    }
+  }
 }
