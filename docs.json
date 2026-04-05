@@ -45,6 +45,14 @@
             ]
           },
           {
+            "group": "Support",
+            "pages": [
+              "audiostreaming-stack/support/contact",
+              "audiostreaming-stack/support/faq",
+              "audiostreaming-stack/support/troubleshooting"
+            ]
+          },
+          {
             "group": "Updates",
             "pages": [
               "audiostreaming-stack/changelog"

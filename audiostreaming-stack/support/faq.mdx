@@ -1,0 +1,49 @@
+---
+title: FAQ
+description: Frequently asked questions about the audio streaming stack
+---
+
+<AccordionGroup>
+  <Accordion title="What are the minimum system requirements?">
+    You need a Linux server with Docker and Docker Compose installed. A minimum of 1 CPU core and 1 GB RAM is recommended, though more resources may be needed for multiple concurrent streams.
+  </Accordion>
+
+  <Accordion title="Which audio formats are supported?">
+    The stack supports MP3, FLAC, and WAV files for emergency/fallback audio. Live streams are encoded and delivered via Icecast in formats configured through Liquidsoap.
+  </Accordion>
+
+  <Accordion title="Can I run this on a Raspberry Pi?">
+    Yes, as long as Docker is installed and the Pi has enough resources. A Raspberry Pi 4 with 2 GB or more RAM is recommended for a single-stream setup.
+  </Accordion>
+
+  <Accordion title="How do I update to the latest version?">
+    Pull the latest changes and rebuild:
+
+    ```bash
+    git pull origin main
+    docker compose build
+    docker compose up -d
+    ```
+  </Accordion>
+
+  <Accordion title="How do I add multiple streams?">
+    See the [streams configuration guide](/audiostreaming-stack/streams) for instructions on setting up multiple mount points and stream endpoints.
+  </Accordion>
+
+  <Accordion title="Is HTTPS supported?">
+    Yes. The Nginx reverse proxy handles TLS termination. See the [firewall and networking guide](/audiostreaming-stack/firewall) for details on configuring HTTPS.
+  </Accordion>
+
+  <Accordion title="Where are logs stored?">
+    Logs are managed by Docker. View them with:
+
+    ```bash
+    docker compose logs <service>
+    docker compose logs --tail=100 -f <service>
+    ```
+  </Accordion>
+
+  <Accordion title="Can I use this for commercial purposes?">
+    Check the [license](/audiostreaming-stack/index) for the specific terms. The project is open source, but license conditions apply.
+  </Accordion>
+</AccordionGroup>
