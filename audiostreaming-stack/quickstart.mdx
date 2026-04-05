@@ -1,0 +1,133 @@
+---
+title: Quickstart
+description: Get the audio streaming stack running on your server
+---
+
+<Info>
+  **Prerequisites:**
+  - A Linux server (Ubuntu/Debian recommended)
+  - [Docker](https://docs.docker.com/engine/install/) and Docker Compose installed
+  - A domain name pointed at your server
+  - Ports 80, 443, 8010, and 8011 open
+</Info>
+
+## Option A: Interactive installer (recommended)
+
+The installer handles Docker checks, configuration, SSL setup, and launching the stack.
+
+<Tabs>
+  <Tab title="Pre-built images (fastest)">
+    ```bash
+    git clone https://github.com/sonicverse-eu/audiostreaming-stack.git
+    cd audiostreaming-stack
+    ./install.sh --use-prebuilt
+    ```
+  </Tab>
+  <Tab title="Build locally">
+    ```bash
+    git clone https://github.com/sonicverse-eu/audiostreaming-stack.git
+    cd audiostreaming-stack
+    ./install.sh
+    ```
+  </Tab>
+</Tabs>
+
+## Option B: Manual setup
+
+<Steps>
+  <Step title="Clone and configure">
+    ```bash
+    git clone https://github.com/sonicverse-eu/audiostreaming-stack.git
+    cd audiostreaming-stack
+    cp .env.example .env
+    ```
+
+    Edit `.env` with your values. See [configuration](/audiostreaming-stack/configuration) for all available variables.
+  </Step>
+
+  <Step title="Add emergency audio">
+    Place a fallback audio file that plays when both studio streams are offline:
+
+    ```bash
+    cp /path/to/your/fallback.mp3 emergency-audio/fallback.mp3
+    ```
+  </Step>
+
+  <Step title="Obtain SSL certificate">
+    ```bash
+    ./init-letsencrypt.sh
+    ```
+
+    <Tip>Set `LETSENCRYPT_STAGING=1` in your `.env` to test with staging certificates first.</Tip>
+  </Step>
+
+  <Step title="Start the stack">
+    ```bash
+    docker compose up -d
+    ```
+  </Step>
+
+  <Step title="Connect your studio encoder">
+    Configure [BUTT](https://danielnoethen.de/butt/) or any Icecast-compatible encoder:
+
+    **Primary stream:**
+    - Host: your server IP
+    - Port: `8010`
+    - Mount: `/primary`
+    - Password: your `HARBOR_PASSWORD` from `.env`
+    - Format: MP3 CBR 320 kbps
+
+    **Fallback stream:**
+    - Host: your server IP
+    - Port: `8011`
+    - Mount: `/secondary`
+    - Password: your `HARBOR_PASSWORD` from `.env`
+    - Format: MP3 CBR 192 kbps
+
+    **Command-line encoder profiles (LAME):**
+    ```bash
+    # Primary (320 kbps)
+    lame -r -s 44.1 -b 320 -x - -
+
+    # Fallback (192 kbps)
+    lame -r -s 44.1 -b 192 -x - -
+    ```
+  </Step>
+
+  <Step title="Verify">
+    Check that everything is running:
+
+    - **Icecast admin:** `http://<host>/icecast-admin/`
+    - **Test stream:** open `http://<host>/listen/stream-mp3-128` in VLC
+    - **HLS:** open `http://<host>/hls/live.m3u8` in Safari or VLC
+  </Step>
+</Steps>
+
+## Install Docker
+
+If you don't have Docker installed yet:
+
+<Tabs>
+  <Tab title="Ubuntu / Debian">
+    ```bash
+    curl -fsSL https://get.docker.com | sh
+    sudo usermod -aG docker $USER
+    ```
+
+    Log out and back in for group changes to take effect.
+  </Tab>
+  <Tab title="macOS / Windows">
+    Install [Docker Desktop](https://www.docker.com/products/docker-desktop/). Windows requires WSL 2.
+  </Tab>
+</Tabs>
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Configuration" icon="gear" href="/audiostreaming-stack/configuration">
+    Customize all environment variables for your station.
+  </Card>
+  <Card title="Stream endpoints" icon="headphones" href="/audiostreaming-stack/streams">
+    See all available listener endpoints and formats.
+  </Card>
+</Columns>

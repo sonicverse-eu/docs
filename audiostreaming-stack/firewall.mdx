@@ -1,0 +1,33 @@
+---
+title: Firewall setup
+description: Required ports and automated firewall configuration
+---
+
+## Required ports
+
+| Port | Purpose |
+|---|---|
+| 80 | HTTP — Let's Encrypt ACME challenges and HTTPS redirect |
+| 443 | HTTPS — streams, HLS, admin panel, and status API |
+| 8010 | Studio primary input (Liquidsoap harbor) |
+| 8011 | Studio fallback input (Liquidsoap harbor) |
+
+## Automated setup
+
+The included script configures UFW (Uncomplicated Firewall) with the required rules:
+
+```bash
+sudo ./setup-firewall.sh
+```
+
+### Restrict studio ports
+
+For production deployments, restrict the studio input ports to your studio's IP address:
+
+```bash
+sudo ./setup-firewall.sh --studio-ip 203.0.113.50
+```
+
+This allows only the specified IP to connect on ports 8010 and 8011, while keeping ports 80 and 443 open to all traffic.
+
+<Warning>If your studio has a dynamic IP address, you will need to update the firewall rules each time it changes. Consider using a VPN or a static IP for your studio connection.</Warning>

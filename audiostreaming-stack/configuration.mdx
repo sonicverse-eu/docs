@@ -1,0 +1,85 @@
+---
+title: Configuration
+description: Environment variables and settings for the audio streaming stack
+---
+
+All settings are managed via the `.env` file. Copy `.env.example` to get started:
+
+```bash
+cp .env.example .env
+```
+
+## Station
+
+| Variable | Description | Default |
+|---|---|---|
+| `STATION_NAME` | Station name used in stream metadata and alerts | `My Radio Station` |
+| `STATION_LOCATION` | Station location shown in Icecast server info | `Your Country` |
+| `STATION_ADMIN_EMAIL` | Admin contact email | `admin@example.com` |
+
+## Icecast
+
+| Variable | Description | Default |
+|---|---|---|
+| `ICECAST_SOURCE_PASSWORD` | Password for Liquidsoap to Icecast connections | — |
+| `ICECAST_RELAY_PASSWORD` | Password for Icecast relay connections | — |
+| `ICECAST_ADMIN_USER` | Icecast admin panel username | `admin` |
+| `ICECAST_ADMIN_PASSWORD` | Icecast admin panel password | — |
+| `ICECAST_HOSTNAME` | Public hostname for the stream server | `stream.example.com` |
+| `ICECAST_MAX_LISTENERS` | Maximum concurrent listeners | `500` |
+
+## Liquidsoap harbor
+
+| Variable | Description | Default |
+|---|---|---|
+| `HARBOR_PRIMARY_PORT` | Port for primary studio input | `8010` |
+| `HARBOR_FALLBACK_PORT` | Port for fallback studio input | `8011` |
+| `HARBOR_PASSWORD` | Password for studio to Liquidsoap connections | — |
+
+## SSL
+
+| Variable | Description | Default |
+|---|---|---|
+| `LETSENCRYPT_EMAIL` | Email for Let's Encrypt notifications | `admin@example.com` |
+| `LETSENCRYPT_STAGING` | Set to `1` for test certificates | `0` |
+
+<Tip>Use staging certificates while testing to avoid hitting Let's Encrypt rate limits.</Tip>
+
+## Alerts
+
+| Variable | Description | Default |
+|---|---|---|
+| `PUSHOVER_USER_KEY` | Pushover user key for notifications | — |
+| `PUSHOVER_APP_TOKEN` | Pushover application token | — |
+| `SILENCE_THRESHOLD_DB` | Silence detection threshold in dB | `-40` |
+| `SILENCE_DURATION` | Seconds of silence before alerting | `15` |
+
+## Appwrite authentication
+
+The status panel uses [Appwrite](https://appwrite.io) for team-based authentication.
+
+| Variable | Description | Default |
+|---|---|---|
+| `APPWRITE_ENDPOINT` | Appwrite API endpoint | `https://cloud.appwrite.io/v1` |
+| `APPWRITE_PROJECT_ID` | Appwrite project ID | — |
+| `APPWRITE_TEAM_ID` | Appwrite team ID (only members get panel access) | — |
+
+## Status panel
+
+| Variable | Description | Default |
+|---|---|---|
+| `STATUS_PANEL_CORS_ORIGIN` | Dashboard URL(s) for CORS, comma-separated | `https://status.example.com` |
+| `STATUS_PANEL_WRITE_ROLES` | Appwrite team roles allowed to manage emergency audio | `owner,admin` |
+| `STATUS_PANEL_ALLOW_RISKY_COMMANDS` | Enable remote restart and SSL renewal commands | `0` |
+
+<Warning>Only enable `STATUS_PANEL_ALLOW_RISKY_COMMANDS` if you understand the security implications. This allows the dashboard to restart Docker containers and trigger SSL renewal remotely.</Warning>
+
+## PostHog analytics
+
+| Variable | Description | Default |
+|---|---|---|
+| `POSTHOG_API_KEY` | PostHog project API key (leave empty to disable) | — |
+| `POSTHOG_HOST` | PostHog instance URL | `https://app.posthog.com` |
+| `POSTHOG_POLL_INTERVAL` | Stats polling interval in seconds | `30` |
+
+<Tip>Leave `POSTHOG_API_KEY` empty to disable analytics entirely.</Tip>

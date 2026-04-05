@@ -1,0 +1,42 @@
+---
+title: Security
+description: Security policy and vulnerability reporting for the audio streaming stack
+---
+
+## Reporting a vulnerability
+
+**Do not open a public GitHub issue for security vulnerabilities.**
+
+Use [GitHub's private vulnerability reporting](https://github.com/sonicverse-eu/audiostreaming-stack/security/advisories/new) to disclose issues confidentially.
+
+Include the following in your report:
+
+- Description of the vulnerability
+- Steps to reproduce
+- Potential impact
+- Any suggested fix or mitigation
+
+Reports are acknowledged within **48 hours**. Critical issues are patched within **14 days**.
+
+## Scope
+
+**In scope:**
+
+- Command injection via the status panel API
+- Authentication bypass in the Appwrite integration
+- Container escape via Docker socket exposure
+- Secrets leakage through API responses
+- CORS misconfigurations allowing unauthorized cross-origin access
+
+**Out of scope:**
+
+- Issues requiring physical access to the server
+- Denial of service attacks against a specific deployment
+- Social engineering
+- Vulnerabilities in third-party dependencies (report those upstream)
+
+## Supported versions
+
+| Version | Supported |
+|---|---|
+| Latest | Yes |
