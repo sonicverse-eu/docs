@@ -1,0 +1,30 @@
+---
+title: Changelog
+description: Release history for the audio streaming stack
+---
+
+<Update label="2026-04-05" description="v1.0.0" tags={["Release"]}>
+  ## Initial release
+
+  First public release of the Sonicverse Audio Streaming Stack.
+
+  **Highlights:**
+  - Icecast2 stream distribution with six mount points (MP3, AAC, Ogg Vorbis)
+  - Liquidsoap audio processing with three-tier automatic fallback
+  - HLS adaptive bitrate streaming for mobile
+  - Nginx reverse proxy with automatic Let's Encrypt SSL
+  - Real-time operator dashboard with Appwrite authentication
+  - PostHog analytics and Pushover alerting
+  - Interactive installer script
+  - Pre-built container images on GHCR
+  - UFW firewall setup script with studio IP restriction
+
+  **Security updates:**
+  - Upgraded Debian base image to 13.4-slim
+  - Upgraded Python base images to 3.15-rc-alpine3.22
+  - Upgraded urllib3 to 2.6.3
+  - Upgraded Next.js to 16.1.5
+  - Fixed 16 dependency vulnerabilities via Snyk and Dependabot
+
+  [Full changelog on GitHub](https://github.com/sonicverse-eu/audiostreaming-stack/releases/tag/v1.0.0)
+</Update>

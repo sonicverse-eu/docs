@@ -39,6 +39,7 @@
           {
             "group": "Community",
             "pages": [
+              "audiostreaming-stack/changelog",
               "audiostreaming-stack/contributing",
               "audiostreaming-stack/security"
             ]
