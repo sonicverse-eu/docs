@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Sonicverse",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#432dd7",
+    "light": "#432dd7",
+    "dark": "#432dd7"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -55,10 +55,6 @@
         }
       ]
     }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
   },
   "navbar": {
     "links": [
@@ -112,5 +108,6 @@
         ]
       }
     ]
-  }
+  },
+  "logo": "/images/Artboard1.png"
 }
