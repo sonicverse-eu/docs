@@ -5,9 +5,8 @@
   "colors": {
     "primary": "#432dd7",
     "light": "#432dd7",
-    "dark": "#432dd7"
+    "dark": "#5546b6"
   },
-  "description": "Documentation for Sonicverse open-source software — self-hosted audio streaming, live radio infrastructure, and tools for independent media.",
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
@@ -116,7 +115,15 @@
       }
     ]
   },
-  "logo": "/images/Artboard1.png",
+  "interaction": {
+    "drilldown": false
+  },
+  "description": "Open-source software for independent media",
+  "logo": {
+    "light": "/images/Asset2@4x.png",
+    "dark": "/images/Asset1@4x.png",
+    "href": "https://sonicverse.eu"
+  },
   "seo": {
     "metatags": {
       "og:site_name": "Sonicverse Docs",
