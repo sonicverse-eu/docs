@@ -1,0 +1,71 @@
+---
+title: Status panel
+description: Real-time operator dashboard for monitoring and managing your radio station
+---
+
+The status panel consists of two parts: a Flask API backend running inside the Docker stack, and a Next.js frontend designed to be deployed on Appwrite Sites.
+
+## Features
+
+- Live listener counts and mount point status (5-second refresh)
+- Container health monitoring
+- Stack configuration overview
+- Recent alerts timeline
+- Emergency audio upload and management
+- Role-based write access via Appwrite teams
+
+## API backend
+
+The API backend runs as a Docker container in the stack and is proxied through Nginx at `/api/`. It provides endpoints for:
+
+- Stream health and listener statistics
+- Docker container status
+- Emergency audio file management (upload, list, delete)
+- Stack configuration details
+
+## Dashboard deployment
+
+The frontend is a Next.js application in the `status-dashboard/` directory.
+
+<Steps>
+  <Step title="Configure environment">
+    ```bash
+    cd status-dashboard
+    cp .env.local.example .env.local
+    ```
+
+    Edit `.env.local` with your streaming server URL and Appwrite credentials.
+  </Step>
+
+  <Step title="Build">
+    ```bash
+    npm install && npm run build
+    ```
+  </Step>
+
+  <Step title="Deploy">
+    Deploy the `out/` directory to [Appwrite Sites](https://appwrite.io/docs/products/sites) or any static hosting provider.
+  </Step>
+</Steps>
+
+## Authentication
+
+The status panel uses Appwrite team-based authentication. Only members of the configured Appwrite team can access the dashboard.
+
+Write operations (managing emergency audio, restarting services) are restricted to team members with roles listed in `STATUS_PANEL_WRITE_ROLES` (defaults to `owner,admin`).
+
+| Variable | Description | Default |
+|---|---|---|
+| `APPWRITE_ENDPOINT` | Appwrite API endpoint | `https://cloud.appwrite.io/v1` |
+| `APPWRITE_PROJECT_ID` | Appwrite project ID | — |
+| `APPWRITE_TEAM_ID` | Team ID — only members get access | — |
+| `STATUS_PANEL_WRITE_ROLES` | Roles allowed to manage emergency audio | `owner,admin` |
+
+## Remote commands
+
+When `STATUS_PANEL_ALLOW_RISKY_COMMANDS` is set to `1`, the dashboard can trigger:
+
+- Docker container restarts
+- SSL certificate renewal
+
+<Warning>Only enable this on trusted networks. These commands allow remote control of your Docker stack.</Warning>

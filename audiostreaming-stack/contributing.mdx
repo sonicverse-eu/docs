@@ -1,0 +1,80 @@
+---
+title: Contributing
+description: How to contribute to the audio streaming stack
+---
+
+Contributions are welcome. This guide covers how to get started, submit changes, and report issues.
+
+## Getting started
+
+<Steps>
+  <Step title="Fork and clone">
+    Fork the repository on GitHub, then clone your fork:
+
+    ```bash
+    git clone https://github.com/<your-username>/audiostreaming-stack.git
+    cd audiostreaming-stack
+    ```
+  </Step>
+
+  <Step title="Configure">
+    ```bash
+    cp .env.example .env
+    ```
+
+    Fill in your values. See [configuration](/audiostreaming-stack/configuration) for details.
+  </Step>
+
+  <Step title="Add emergency audio">
+    Place at least one fallback audio file (MP3, FLAC, or WAV) in `emergency-audio/`.
+  </Step>
+
+  <Step title="Build and start">
+    ```bash
+    docker compose build
+    docker compose up -d
+    ```
+  </Step>
+</Steps>
+
+## Development workflow
+
+| Service | How to iterate |
+|---|---|
+| `status-dashboard` | `cd status-dashboard && npm install && npm run dev` |
+| `status-panel` | Edit `server.py`, then `docker compose restart status-panel` |
+| `analytics` | Edit `tracker.py`, then `docker compose restart analytics` |
+| `liquidsoap` | Edit `radio.liq`, then `docker compose restart liquidsoap` |
+| `nginx` | Edit `nginx.conf`, then `docker compose restart nginx` |
+
+## Code style
+
+- **Python** — `ruff check analytics/ status-panel/` (config in `pyproject.toml`)
+- **TypeScript** — `npm run lint` inside `status-dashboard/`
+- **Shell** — `set -e`, 4-space indent, double-quoted variables
+- **Dockerfiles** — must pass `hadolint`
+
+## Submitting a pull request
+
+1. Create a branch from `main` (`git checkout -b feat/my-feature`)
+2. Keep each PR focused on a single feature or fix
+3. Run linters locally before pushing
+4. Fill in the pull request template completely
+5. Reference any related issue with `Closes #123`
+
+## Adding environment variables
+
+If your change introduces new environment variables:
+
+- Add them to `.env.example` with a sensible default or blank value
+- Document them in the configuration table in `README.md`
+
+## Reporting bugs
+
+Use the **Bug report** issue template on GitHub. Include your OS, Docker version, and relevant logs:
+
+```bash
+docker compose logs --tail=50 <service>
+```
+
+<Warning>Do not open public issues for security vulnerabilities. See [security](/audiostreaming-stack/security) instead.</Warning>

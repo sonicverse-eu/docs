@@ -1,0 +1,82 @@
+---
+title: Audio Streaming Stack
+description: Self-hosted Docker Compose stack for live radio streaming with Icecast2, HLS, and automatic fallback
+---
+
+Self-hosted Docker Compose stack for live radio streaming. Ingest from any studio encoder, deliver via Icecast2 and HLS adaptive bitrate, with automatic fallback, silence detection, PostHog analytics, Pushover alerts, and a real-time operator dashboard.
+
+<Card title="Quickstart" icon="rocket" href="/audiostreaming-stack/quickstart" horizontal>
+  Get the stack running in minutes with the interactive installer.
+</Card>
+
+## Features
+
+<Columns cols={2}>
+  <Card title="Multiple formats" icon="headphones">
+    MP3, AAC, and Ogg Vorbis outputs at multiple bitrates, plus HLS adaptive streaming for mobile.
+  </Card>
+  <Card title="Automatic fallback" icon="shield-check">
+    Three-tier fallback chain — primary stream, backup stream, and emergency audio file.
+  </Card>
+  <Card title="Silence detection" icon="volume-xmark">
+    Detects dead air and sends alerts via Pushover with configurable thresholds.
+  </Card>
+  <Card title="Operator dashboard" icon="gauge-high">
+    Real-time listener counts, container health, emergency audio management, and alert timeline.
+  </Card>
+  <Card title="Analytics" icon="chart-line">
+    Listener metrics and stream events sent to PostHog for monitoring and analysis.
+  </Card>
+  <Card title="SSL out of the box" icon="lock">
+    Automatic Let's Encrypt certificate provisioning and renewal via Certbot.
+  </Card>
+</Columns>
+
+## Services
+
+| Service | Description |
+|---|---|
+| **Icecast2** | Stream distribution server with six mount points |
+| **Liquidsoap** | Stream processor — ingest, fallback chain, encoding, HLS output |
+| **Nginx** | Public-facing reverse proxy and HLS segment serving |
+| **Status Panel** | Flask API backend — stream health, container status, emergency audio management |
+| **Analytics** | Polls Icecast stats and sends events to PostHog with Pushover alerts |
+| **Certbot** | Automatic Let's Encrypt certificate renewal |
+
+## File structure
+
+```text
+├── docker-compose.yml
+├── .env.example
+├── install.sh
+├── init-letsencrypt.sh
+├── setup-firewall.sh
+├── icecast/
+│   ├── Dockerfile
+│   └── icecast.xml
+├── liquidsoap/
+│   ├── Dockerfile
+│   └── radio.liq
+├── nginx/
+│   ├── Dockerfile
+│   └── nginx.conf
+├── analytics/
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── tracker.py
+├── status-panel/              ← API backend (Docker)
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── server.py
+├── status-dashboard/          ← Next.js frontend (Appwrite Sites)
+│   ├── app/
+│   ├── components/
+│   ├── lib/
+│   └── package.json
+└── emergency-audio/
+    └── fallback.mp3
+```
+
+## License
+
+Audio Streaming Stack is released under the [MIT License](https://github.com/sonicverse-eu/audiostreaming-stack/blob/main/LICENSE).

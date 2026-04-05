@@ -1,0 +1,86 @@
+---
+title: Architecture
+description: How the audio streaming stack components connect and process audio
+---
+
+The stack uses a pipeline architecture where audio flows from your studio through several processing stages before reaching listeners.
+
+## Signal flow
+
+```text
+Studio (BUTT/etc)
+   ├── MP3 320k stream ──► :8010 ─┐
+   └── MP3 192k stream ──► :8011 ─┤
+                              ▼
+                      ┌─────────────┐
+                      │  Liquidsoap  │──► HLS segments
+                      │  (encoding + │
+                      │   fallback)  │
+                      └──────┬───────┘
+                             │
+                      ┌──────▼───────┐
+                      │   Icecast2   │  6 mount points
+                      └──────┬───────┘
+                             │
+                      ┌──────▼───────┐
+                      │    Nginx     │  :80 / :443
+                      │  HLS + proxy │
+                      └──────────────┘
+```
+
+## Components
+
+### Liquidsoap
+
+The core audio processor. It:
+
+- Accepts two incoming studio streams (primary on port 8010, fallback on port 8011)
+- Manages the three-tier fallback chain: primary, fallback, emergency file
+- Encodes audio into six Icecast output formats (MP3, AAC, Ogg Vorbis at multiple bitrates)
+- Generates HLS adaptive bitrate segments with three AAC quality tiers
+- Detects silence and triggers alerts
+
+### Icecast2
+
+Distributes audio to listeners over HTTP. Provides six mount points for different format and bitrate combinations. The Icecast admin panel gives you raw listener statistics and mount point status.
+
+### Nginx
+
+The public entry point. It:
+
+- Terminates SSL with Let's Encrypt certificates
+- Reverse-proxies Icecast mount points under `/listen/`
+- Serves HLS segments under `/hls/`
+- Proxies the status panel API under `/api/`
+- Proxies the Icecast admin interface under `/icecast-admin/`
+
+### Status Panel
+
+A Flask API that provides:
+
+- Live listener counts and mount point health
+- Docker container status monitoring
+- Emergency audio file upload and management
+- Appwrite team-based authentication with role-based write access
+
+### Analytics
+
+A Python service that:
+
+- Polls Icecast statistics at a configurable interval
+- Sends listener and stream events to PostHog
+- Sends Pushover alerts for silence, outages, and failovers
+
+### Certbot
+
+Handles automatic Let's Encrypt certificate provisioning and renewal.
+
+## Fallback chain
+
+The stack uses a three-tier fallback chain that activates automatically with no manual intervention:
+
+1. **Primary stream** — your main studio feed (port 8010, MP3 320 kbps)
+2. **Fallback stream** — a backup studio feed (port 8011, MP3 192 kbps)
+3. **Emergency file** — a local MP3 file at `emergency-audio/fallback.mp3`
+
+When the primary stream disconnects, Liquidsoap switches to the fallback stream within seconds. If both studio feeds are offline, the emergency audio file loops until a stream reconnects. All transitions are handled by Liquidsoap and are seamless for listeners.

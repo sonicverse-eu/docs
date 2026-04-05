@@ -1,0 +1,47 @@
+---
+title: Analytics and alerts
+description: PostHog analytics events and Pushover alert configuration
+---
+
+The analytics service polls Icecast statistics and sends events to PostHog. It also triggers Pushover alerts for critical stream events.
+
+## PostHog events
+
+The following events are sent to PostHog at each poll interval (default: 30 seconds):
+
+| Event | Description |
+|---|---|
+| `stream_listeners` | Per-mount listener count |
+| `stream_total_listeners` | Aggregate listener count across all mounts |
+| `stream_source_connected` | A mount point came online |
+| `stream_source_disconnected` | A mount point went offline |
+| `stream_silence_detected` | Dead air detected on the stream |
+| `stream_silence_resolved` | Audio returned after a silence event |
+
+Configure the polling interval with `POSTHOG_POLL_INTERVAL` in your `.env` file. Leave `POSTHOG_API_KEY` empty to disable analytics entirely.
+
+## Pushover alerts
+
+| Alert | Priority | Trigger |
+|---|---|---|
+| Silence detected | High (siren) | Audio below `SILENCE_THRESHOLD_DB` for `SILENCE_DURATION` seconds |
+| Audio resumed | Low | Audio returns after a silence event |
+| Stream outage | High (siren) | One or more Icecast outputs disconnect |
+| Primary harbor down | High (siren) | Primary studio input disconnects |
+| Secondary harbor down | High / Critical | Secondary disconnects; escalates to critical when primary is also down |
+
+Alerts have a **5-minute cooldown** to prevent notification spam.
+
+## Configuration
+
+| Variable | Description | Default |
+|---|---|---|
+| `PUSHOVER_USER_KEY` | Your Pushover user key | — |
+| `PUSHOVER_APP_TOKEN` | Your Pushover application token | — |
+| `SILENCE_THRESHOLD_DB` | Audio level in dB considered silence | `-40` |
+| `SILENCE_DURATION` | Seconds of silence before triggering an alert | `15` |
+| `POSTHOG_API_KEY` | PostHog project API key | — |
+| `POSTHOG_HOST` | PostHog instance URL | `https://app.posthog.com` |
+| `POSTHOG_POLL_INTERVAL` | Polling interval in seconds | `30` |
+
+<Tip>You can use a self-hosted PostHog instance by changing `POSTHOG_HOST` to your own URL.</Tip>

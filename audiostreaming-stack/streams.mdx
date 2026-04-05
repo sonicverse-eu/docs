@@ -1,0 +1,61 @@
+---
+title: Stream endpoints
+description: All available listener endpoints, formats, and studio input configuration
+---
+
+## Studio inputs
+
+Your studio encoder sends audio to Liquidsoap, which processes it and feeds the output chain.
+
+| Input | Port | Protocol | Format |
+|---|---|---|---|
+| Primary | 8010 | Icecast source | MP3 CBR 320 kbps |
+| Fallback | 8011 | Icecast source | MP3 CBR 192 kbps |
+| Emergency | — | Local file | `emergency-audio/fallback.mp3` |
+
+The fallback chain activates automatically: primary, then fallback, then emergency file. No manual intervention is needed.
+
+## Icecast endpoints
+
+All Icecast mount points are available through the Nginx reverse proxy under `/listen/`.
+
+| Mount | Format | Bitrate | URL |
+|---|---|---|---|
+| `/stream-mp3-128` | MP3 | 128 kbps | `https://<host>/listen/stream-mp3-128` |
+| `/stream-mp3-192` | MP3 | 192 kbps | `https://<host>/listen/stream-mp3-192` |
+| `/stream-mp3-320` | MP3 | 320 kbps | `https://<host>/listen/stream-mp3-320` |
+| `/stream-aac-128` | AAC | 128 kbps | `https://<host>/listen/stream-aac-128` |
+| `/stream-aac-192` | AAC | 192 kbps | `https://<host>/listen/stream-aac-192` |
+| `/stream-ogg-128` | Ogg Vorbis | 128 kbps | `https://<host>/listen/stream-ogg-128` |
+
+Replace `<host>` with your `ICECAST_HOSTNAME` value.
+
+## HLS endpoint
+
+For mobile and web players that need adaptive bitrate streaming:
+
+```text
+https://<host>/hls/live.m3u8
+```
+
+The HLS stream includes three AAC quality tiers. Players automatically select the best quality for the listener's connection.
+
+## Choosing an endpoint
+
+| Use case | Recommended endpoint |
+|---|---|
+| Web player (general) | `/listen/stream-mp3-128` or `/listen/stream-aac-128` |
+| High-quality listening | `/listen/stream-mp3-320` |
+| Mobile app | `/hls/live.m3u8` (adaptive bitrate) |
+| Low bandwidth | `/listen/stream-mp3-128` |
+| Open-source codec | `/listen/stream-ogg-128` |
+
+## Admin interface
+
+The Icecast admin panel is available at:
+
+```text
+https://<host>/icecast-admin/
+```
+
+Log in with the `ICECAST_ADMIN_USER` and `ICECAST_ADMIN_PASSWORD` from your `.env` file. The admin panel shows raw listener statistics, mount point status, and connected sources.
