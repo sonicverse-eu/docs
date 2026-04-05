@@ -105,11 +105,11 @@
         ]
       },
       {
-        "header": "Open source",
+        "header": "Community",
         "items": [
           {
-            "label": "Contribute",
-            "href": "https://github.com/sonicverse-eu/docs"
+            "label": "Slack",
+            "href": "https://join.slack.com/t/sonicverse-oss/shared_invite/zt-3u969i5rr-cmfgEycFAi8V7Baj0uBx0A"
           }
         ]
       }
