@@ -1,0 +1,105 @@
+---
+title: Troubleshooting
+description: Common issues and solutions for the audio streaming stack
+---
+
+## Containers not starting
+
+If one or more containers fail to start, check the logs:
+
+```bash
+docker compose logs <service>
+```
+
+Common causes:
+
+- **Missing `.env` file** — Copy the example and fill in your values:
+
+  ```bash
+  cp .env.example .env
+  ```
+
+- **Port conflicts** — Another service may already be using the required ports. Check with:
+
+  ```bash
+  ss -tlnp | grep <port>
+  ```
+
+- **Missing emergency audio** — Liquidsoap requires at least one fallback audio file in `emergency-audio/`. Add an MP3, FLAC, or WAV file to this directory.
+
+## No audio playing
+
+<Steps>
+  <Step title="Check Liquidsoap status">
+    ```bash
+    docker compose logs liquidsoap
+    ```
+
+    Look for connection errors or missing source warnings.
+  </Step>
+
+  <Step title="Verify the stream mount point">
+    Confirm your mount point is configured correctly in the [streams configuration](/audiostreaming-stack/streams).
+  </Step>
+
+  <Step title="Test the Icecast endpoint">
+    Open your Icecast URL directly in a browser or media player to confirm whether the stream is accessible.
+  </Step>
+</Steps>
+
+## Status panel not loading
+
+- Verify the status panel container is running:
+
+  ```bash
+  docker compose ps status-panel
+  ```
+
+- Check that the configured port is accessible and not blocked by your [firewall](/audiostreaming-stack/firewall).
+- Review the status panel logs for errors:
+
+  ```bash
+  docker compose logs status-panel
+  ```
+
+## Analytics not recording
+
+- Confirm the analytics container is running:
+
+  ```bash
+  docker compose ps analytics
+  ```
+
+- Check the [analytics configuration](/audiostreaming-stack/analytics) for correct database connection settings.
+- Review the tracker logs:
+
+  ```bash
+  docker compose logs analytics
+  ```
+
+## High CPU or memory usage
+
+- Check which container is consuming resources:
+
+  ```bash
+  docker stats
+  ```
+
+- If Liquidsoap is using excessive CPU, reduce the number of concurrent streams or lower the encoding bitrate.
+- Consider allocating more resources to the host machine for production workloads.
+
+## Docker Compose errors
+
+| Error | Solution |
+|---|---|
+| `service "x" depends on undefined service` | Verify all service names in `docker-compose.yml` match exactly |
+| `port is already allocated` | Stop the conflicting service or change the port in `.env` |
+| `no matching manifest for linux/arm64` | Some images may not support ARM. Check for alternative images or build from source |
+
+## Still stuck?
+
+If none of the above resolves your issue:
+
+1. Search [GitHub Issues](https://github.com/sonicverse-eu/audiostreaming-stack/issues) for similar problems
+2. Ask in [GitHub Discussions](https://github.com/sonicverse-eu/audiostreaming-stack/discussions)
+3. See the [contact and help page](/audiostreaming-stack/support/contact) for more support options
