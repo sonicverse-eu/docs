@@ -3,6 +3,29 @@ title: Changelog
 description: Release notes and updates for the Audio Streaming Stack
 ---
 
+<Update label="2026-04-06" description="v1.1.0" tags={["Release"]}>
+  ## Easier installation and flexible deployment
+
+  This release focuses on making the stack faster to deploy and easier to manage.
+
+  ### New features
+
+  - **One-line remote install** — You can now install the stack with a single `curl | bash` command, no need to manually clone the repository first. The installer detects remote execution and handles everything automatically.
+  - **Pre-built container images** — Deploy using pre-built images from GitHub Container Registry instead of building locally. This significantly reduces setup time on low-powered servers. See the [quickstart](/audiostreaming-stack/quickstart) for usage.
+  - **Minimal deployment mode** — The installer now supports a minimal mode that starts only the core streaming services, skipping optional components like analytics and the status API. Ideal for quick testing or resource-constrained environments.
+  - **Development mode** — A new local build mode for contributors who want to build and test container images on their own machine.
+  - **Root-level dependency installer** — A single script to install all development dependencies from the project root, so contributors no longer need to enter each service directory individually.
+
+  ### Updates
+
+  - The installer now displays clearer step-by-step output with dynamic step numbering, making it easier to follow progress during setup.
+  - The `.env.example` file has been updated with better descriptions and clearer defaults, so you know exactly which variables are required for a minimal deployment. See [configuration](/audiostreaming-stack/configuration) for details.
+  - The Status Panel service has been renamed to **Status API** across the project for consistency. No action is needed if you're using the default configuration.
+  - A community Slack channel is now available for support and collaboration. Look for the invite link in the project README.
+
+  **Full changelog**: [v1.1.0](https://github.com/sonicverse-eu/audiostreaming-stack/releases/tag/v1.1.0)
+</Update>
+
 <Update label="2025-04-05" description="v1.0.0" tags={["Release"]}>
   ## Initial release
 
