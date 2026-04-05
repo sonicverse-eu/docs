@@ -33,7 +33,8 @@
             "group": "Operations",
             "pages": [
               "audiostreaming-stack/status-panel",
-              "audiostreaming-stack/analytics"
+              "audiostreaming-stack/analytics",
+              "audiostreaming-stack/troubleshooting"
             ]
           },
           {
