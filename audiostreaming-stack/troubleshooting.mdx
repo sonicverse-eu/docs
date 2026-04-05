@@ -83,8 +83,8 @@ If the dashboard at your status panel URL does not load:
 
 - **Check the API backend.** Verify it is running:
   ```bash
-  docker compose ps status-panel
-  docker compose logs status-panel
+  docker compose ps status-api
+  docker compose logs status-api
   ```
 - **Check CORS settings.** `STATUS_PANEL_CORS_ORIGIN` in `.env` must include the exact URL of your dashboard (including `https://`).
 - **Verify Appwrite credentials.** Confirm `APPWRITE_ENDPOINT`, `APPWRITE_PROJECT_ID`, and `APPWRITE_TEAM_ID` are correct. If authentication fails, users cannot access the panel.

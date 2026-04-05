@@ -9,6 +9,8 @@ All settings are managed via the `.env` file. Copy `.env.example` to get started
 cp .env.example .env
 ```
 
+The installer (`./install.sh`) auto-generates secure passwords for Icecast and harbor connections when creating a new `.env` file. You only need to customize station identity, hostname, and optional integrations.
+
 ## Station
 
 | Variable | Description | Default |
@@ -21,12 +23,12 @@ cp .env.example .env
 
 | Variable | Description | Default |
 |---|---|---|
-| `ICECAST_SOURCE_PASSWORD` | Password for Liquidsoap to Icecast connections | — |
-| `ICECAST_RELAY_PASSWORD` | Password for Icecast relay connections | — |
+| `ICECAST_SOURCE_PASSWORD` | Password for Liquidsoap to Icecast connections | Auto-generated |
+| `ICECAST_RELAY_PASSWORD` | Password for Icecast relay connections | Auto-generated |
 | `ICECAST_ADMIN_USER` | Icecast admin panel username | `admin` |
-| `ICECAST_ADMIN_PASSWORD` | Icecast admin panel password | — |
-| `ICECAST_HOSTNAME` | Public hostname for the stream server | `stream.example.com` |
-| `ICECAST_MAX_LISTENERS` | Maximum concurrent listeners | `500` |
+| `ICECAST_ADMIN_PASSWORD` | Icecast admin panel password | Auto-generated |
+| `ICECAST_HOSTNAME` | Public hostname where listeners access streams | `stream.example.com` |
+| `ICECAST_MAX_LISTENERS` | Maximum concurrent listeners across all mount points | `500` |
 
 ## Liquidsoap harbor
 
@@ -34,29 +36,29 @@ cp .env.example .env
 |---|---|---|
 | `HARBOR_PRIMARY_PORT` | Port for primary studio input | `8010` |
 | `HARBOR_FALLBACK_PORT` | Port for fallback studio input | `8011` |
-| `HARBOR_PASSWORD` | Password for studio to Liquidsoap connections | — |
+| `HARBOR_PASSWORD` | Password for studio to Liquidsoap connections | Auto-generated |
+| `SILENCE_THRESHOLD_DB` | Silence detection threshold in dB | `-40` |
+| `SILENCE_DURATION` | Seconds of silence before alerting | `15` |
 
 ## SSL
 
 | Variable | Description | Default |
 |---|---|---|
 | `LETSENCRYPT_EMAIL` | Email for Let's Encrypt notifications | `admin@example.com` |
-| `LETSENCRYPT_STAGING` | Set to `1` for test certificates | `0` |
+| `LETSENCRYPT_STAGING` | Set to `1` for staging (test) certificates during initial setup | `0` |
 
-<Tip>Use staging certificates while testing to avoid hitting Let's Encrypt rate limits.</Tip>
+<Tip>Use staging certificates while testing to avoid hitting Let's Encrypt rate limits. Change to `0` for production certificates once you have verified everything works.</Tip>
 
 ## Alerts
 
 | Variable | Description | Default |
 |---|---|---|
-| `PUSHOVER_USER_KEY` | Pushover user key for notifications | — |
-| `PUSHOVER_APP_TOKEN` | Pushover application token | — |
-| `SILENCE_THRESHOLD_DB` | Silence detection threshold in dB | `-40` |
-| `SILENCE_DURATION` | Seconds of silence before alerting | `15` |
+| `PUSHOVER_USER_KEY` | Pushover user key for notifications (leave empty to disable) | — |
+| `PUSHOVER_APP_TOKEN` | Pushover application token (leave empty to disable) | — |
 
 ## Appwrite authentication
 
-The status panel uses [Appwrite](https://appwrite.io) for team-based authentication.
+The status panel uses [Appwrite](https://appwrite.io) for team-based authentication. These variables are optional — only required if you want to use the interactive status panel.
 
 | Variable | Description | Default |
 |---|---|---|
@@ -68,9 +70,9 @@ The status panel uses [Appwrite](https://appwrite.io) for team-based authenticat
 
 | Variable | Description | Default |
 |---|---|---|
-| `STATUS_PANEL_CORS_ORIGIN` | Dashboard URL(s) for CORS, comma-separated | `https://status.example.com` |
-| `STATUS_PANEL_WRITE_ROLES` | Appwrite team roles allowed to manage emergency audio | `owner,admin` |
-| `STATUS_PANEL_ALLOW_RISKY_COMMANDS` | Enable remote restart and SSL renewal commands | `0` |
+| `STATUS_PANEL_CORS_ORIGIN` | Dashboard URL for CORS (include `https://`) | `https://status.example.com` |
+| `STATUS_PANEL_WRITE_ROLES` | Comma-separated Appwrite team roles allowed to write/modify via panel | `owner,admin` |
+| `STATUS_PANEL_ALLOW_RISKY_COMMANDS` | Allow dangerous commands like container restart in panel (`0` = deny, `1` = allow) | `0` |
 
 <Warning>Only enable `STATUS_PANEL_ALLOW_RISKY_COMMANDS` if you understand the security implications. This allows the dashboard to restart Docker containers and trigger SSL renewal remotely.</Warning>
 
@@ -80,6 +82,6 @@ The status panel uses [Appwrite](https://appwrite.io) for team-based authenticat
 |---|---|---|
 | `POSTHOG_API_KEY` | PostHog project API key (leave empty to disable) | — |
 | `POSTHOG_HOST` | PostHog instance URL | `https://app.posthog.com` |
-| `POSTHOG_POLL_INTERVAL` | Stats polling interval in seconds | `30` |
+| `POSTHOG_POLL_INTERVAL` | How often to poll Icecast for listener stats, in seconds | `30` |
 
 <Tip>Leave `POSTHOG_API_KEY` empty to disable analytics entirely.</Tip>
