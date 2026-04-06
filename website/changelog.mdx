@@ -3,6 +3,77 @@ title: Changelog
 description: Version history and release notes for the Sonicverse website — features, bug fixes, and infrastructure changes.
 ---
 
+<Update label="2026-04-06" description="v0.29.5 – v0.29.8" tags={["Release"]}>
+  ## Security header hardening
+
+  A series of releases adding production security headers to all routes.
+
+  ### New features
+
+  - **Content Security Policy** — Sitewide CSP header with nonce-based inline script and style blocking.
+  - **HSTS header** — Strict-Transport-Security header for production routes.
+  - **Env-driven config** — Explicit environment booleans for toggling CSP and HSTS.
+
+  ### Bug fixes
+
+  - Removed `X-Powered-By` header from Next.js responses.
+  - Tightened CSP directives for scripts and styles.
+
+  **Full changelog**: [v0.29.5...v0.29.8](https://github.com/sonicverse-eu/website/compare/v0.29.5...v0.29.8)
+</Update>
+
+<Update label="2026-04-06" description="v0.29.2 – v0.29.4" tags={["Release"]}>
+  ## Dependency updates and tooling
+
+  ### Bug fixes
+
+  - Updated Resend from 6.9.4 to 6.10.0.
+
+  ### Chores
+
+  - Added and modernized CodeRabbit configuration.
+
+  **Full changelog**: [v0.29.2...v0.29.4](https://github.com/sonicverse-eu/website/compare/v0.29.2...v0.29.4)
+</Update>
+
+<Update label="2026-04-06" description="v0.29.0 – v0.29.1" tags={["Release"]}>
+  ## Contact form security reporting and UI polish
+
+  ### New features
+
+  - **Security vulnerability reporting** — Public issue disclosure notice and dynamic placeholder for security reports in the contact form.
+  - **Security vulnerability topic** — Added security vulnerability option to site configuration feedback types.
+
+  ### Bug fixes
+
+  - Improved error handling in GitHub issue creation flow.
+  - Normalized topic strings by replacing spaces with underscores in contact emails.
+  - Enabled portal rendering for mobile menu to improve performance and accessibility.
+  - Improved text contrast on hover for navigation links.
+
+  **Full changelog**: [v0.29.0...v0.29.1](https://github.com/sonicverse-eu/website/compare/v0.29.0...v0.29.1)
+</Update>
+
+<Update label="2026-04-06" description="v0.28.0" tags={["Release"]}>
+  ## React Email integration
+
+  ### New features
+
+  - **React Email** — Added `@react-email/components` and `@react-email/render` for templated contact emails.
+
+  **Full changelog**: [v0.28.0](https://github.com/sonicverse-eu/website/releases/tag/v0.28.0)
+</Update>
+
+<Update label="2026-04-06" description="v0.27.1" tags={["Release"]}>
+  ## Documentation fix
+
+  ### Documentation
+
+  - Simplified contact page description by removing redundant text.
+
+  **Full changelog**: [v0.27.1](https://github.com/sonicverse-eu/website/releases/tag/v0.27.1)
+</Update>
+
 <Update label="2026-04-06" description="v0.27.0" tags={["Release"]}>
   ## MDX content migration and site improvements
 
