@@ -16,7 +16,9 @@ The status panel consists of two parts: a Flask API backend (`status-api`) runni
 
 ## Branded root page
 
-Nginx serves a styled HTML status page at your server's root URL (`/`). The page displays your station name, available stream endpoints, and admin contact information.
+Nginx serves a styled HTML status page at your server's root URL (`/`). The page displays your station name, available stream endpoints with SVG icons, and admin contact information. The endpoint grid uses a two-column layout on desktop and single-column on mobile.
+
+The page includes a `noindex, nofollow` meta tag to prevent search engine indexing.
 
 The page is generated automatically at container startup from two environment variables:
 

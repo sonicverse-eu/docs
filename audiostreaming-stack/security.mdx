@@ -35,6 +35,14 @@ You can expect an acknowledgment within **48 hours**. Critical issues receive a 
 - Social engineering
 - Vulnerabilities in third-party dependencies (report those upstream)
 
+## Container hardening
+
+All service containers (Status API, Nginx, Analytics, and Icecast) run as non-root users (UID 1000) by default. This limits the impact of a container escape by ensuring processes inside the container do not have root privileges on the host.
+
+## Automated code review
+
+Pull requests targeting `main` are automatically reviewed by [CodeRabbit](https://coderabbit.ai). The configuration includes per-path review instructions for Python (Ruff), TypeScript (ESLint), Dockerfiles (hadolint), shell scripts, and CI workflows.
+
 ## Secret scanning
 
 This repository uses [TruffleHog](https://trufflesecurity.com/open-source/trufflehog) to detect accidentally committed secrets and sensitive data.
