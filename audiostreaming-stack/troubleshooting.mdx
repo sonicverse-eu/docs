@@ -16,7 +16,7 @@ If listeners hear nothing or players fail to connect:
    docker compose logs <service-name>
    ```
 
-2. Verify your studio encoder is connected. Open the Icecast admin panel at `https://<host>/icecast-admin/` and confirm that source connections appear on the primary (`/primary`) or fallback (`/secondary`) mount points.
+2. Verify your studio encoder is connected. Open the Icecast admin panel at `https://<host>/icecast-admin/` and confirm that source connections appear on the primary (`/primary`) or fallback (`/secondary`) mount.
 
 3. Confirm the emergency audio file exists at `emergency-audio/fallback.mp3`. If no studio source is connected and this file is missing, Liquidsoap has nothing to play.
 
@@ -74,7 +74,7 @@ If `/hls/live.m3u8` returns a 404 or fails to play:
   ```bash
   docker compose logs liquidsoap | grep -i hls
   ```
-- Verify Nginx is configured to serve the `/hls/` path. This is handled automatically, but if you have customized the Nginx configuration, confirm the HLS location block is present.
+- Verify Nginx serves the `/hls/` path. The default configuration handles this automatically, but if you customized `nginx.conf`, confirm the HLS location block is present.
 - HLS requires a short buffer time before segments are available. Wait 10-15 seconds after starting the stream before testing.
 
 ## Status panel not loading
@@ -86,15 +86,15 @@ If the dashboard at your status panel URL does not load:
   docker compose ps status-panel
   docker compose logs status-panel
   ```
-- **Check CORS settings.** `STATUS_PANEL_CORS_ORIGIN` in `.env` must include the exact URL of your dashboard (including `https://`).
-- **Verify Appwrite credentials.** Confirm `APPWRITE_ENDPOINT`, `APPWRITE_PROJECT_ID`, and `APPWRITE_TEAM_ID` are correct. If authentication fails, users cannot access the panel.
+- **Check CORS settings.** `STATUS_PANEL_CORS_ORIGIN` in `.env` must match your dashboard URL exactly, including `https://`.
+- **Verify Appwrite credentials.** Confirm `APPWRITE_ENDPOINT`, `APPWRITE_PROJECT_ID`, and `APPWRITE_TEAM_ID` are correct. Incorrect values prevent users from accessing the panel.
 
 ## Alerts not sending
 
 If you are not receiving Pushover notifications:
 
 - Verify `PUSHOVER_USER_KEY` and `PUSHOVER_APP_TOKEN` are set correctly in `.env`.
-- Alerts have a **5-minute cooldown**. If you recently received an alert, the next one of the same type is suppressed until the cooldown expires.
+- Alerts have a **5-minute cooldown**. If you recently received an alert, the system suppresses the next one of the same type until the cooldown expires.
 - Check the analytics service logs:
   ```bash
   docker compose logs analytics
@@ -131,12 +131,12 @@ If one or more containers are in a restart loop:
 If the stream has intermittent audio issues:
 
 - **Check server resources.** High CPU or memory usage can cause encoding issues. Monitor with `htop` or `docker stats`.
-- **Check your network.** Packet loss between your studio and server causes dropouts. Test with:
+- **Check your network.** Packet loss between your studio and the server causes dropouts. Test with:
   ```bash
   ping -c 100 <server-ip>
   ```
 - **Lower the bitrate.** If your upload bandwidth is limited, switch to a lower bitrate encoding profile in your studio encoder.
-- **Check listener count.** If you are near the `ICECAST_MAX_LISTENERS` limit (default `500`), new connections may be rejected. Increase the value in `.env` if your server can handle more.
+- **Check listener count.** If you are near the `ICECAST_MAX_LISTENERS` limit (default `500`), Icecast rejects new connections. Increase the value in `.env` if your server can handle more.
 
 ## Icecast admin panel not accessible
 

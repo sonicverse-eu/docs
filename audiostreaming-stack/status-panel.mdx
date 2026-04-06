@@ -52,7 +52,7 @@ The frontend is a Next.js application in the `status-dashboard/` directory.
 
 The status panel uses Appwrite team-based authentication. Only members of the configured Appwrite team can access the dashboard.
 
-Write operations (managing emergency audio, restarting services) are restricted to team members with roles listed in `STATUS_PANEL_WRITE_ROLES` (defaults to `owner,admin`).
+Write operations (managing emergency audio, restarting services) require a role listed in `STATUS_PANEL_WRITE_ROLES`. This defaults to `owner,admin`.
 
 | Variable | Description | Default |
 |---|---|---|

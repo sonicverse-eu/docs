@@ -11,16 +11,16 @@ description: Version history and release notes covering new features, bug fixes,
   ### New features
 
   - **One-line remote install** — You can now install the stack with a single `curl | bash` command, no need to manually clone the repository first. The installer detects remote execution and handles everything automatically.
-  - **Pre-built container images** — Deploy using pre-built images from GitHub Container Registry instead of building locally. This significantly reduces setup time on low-powered servers. See the [quickstart](/audiostreaming-stack/quickstart) for usage.
-  - **Minimal deployment mode** — The installer now supports a minimal mode that starts only the core streaming services, skipping optional components like analytics and the status API. Ideal for quick testing or resource-constrained environments.
+  - **Pre-built container images** — Deploy using pre-built images from GitHub Container Registry instead of building locally. This significantly reduces setup time on low-powered servers. See the [quickstart](/audiostreaming-stack/quickstart) for details.
+  - **Minimal deployment mode** — The installer now supports a minimal mode that starts only the core streaming services. It skips optional components like analytics and the status API, making it ideal for quick testing or resource-constrained environments.
   - **Development mode** — A new local build mode for contributors who want to build and test container images on their own machine.
-  - **Root-level dependency installer** — A single script to install all development dependencies from the project root, so contributors no longer need to enter each service directory individually.
+  - **Root-level dependency installer** — A single script installs all development dependencies from the project root. Contributors no longer need to enter each service directory individually.
 
   ### Updates
 
-  - The installer now displays clearer step-by-step output with dynamic step numbering, making it easier to follow progress during setup.
-  - The `.env.example` file has been updated with better descriptions and clearer defaults, so you know exactly which variables are required for a minimal deployment. See [configuration](/audiostreaming-stack/configuration) for details.
-  - The Status Panel service has been renamed to **Status API** across the project for consistency. No action is needed if you're using the default configuration.
+  - The installer now displays clearer step-by-step output with dynamic step numbering. This makes it easier to follow progress during setup.
+  - The `.env.example` file now includes better descriptions and clearer defaults, so you know exactly which variables a minimal deployment requires. See [configuration](/audiostreaming-stack/configuration) for details.
+  - The Status Panel service is now called **Status API** across the project for consistency. No action is needed if you use the default configuration.
   - A community Slack channel is now available for support and collaboration. Look for the invite link in the project README.
 
   **Full changelog**: [v1.1.0](https://github.com/sonicverse-eu/audiostreaming-stack/releases/tag/v1.1.0)

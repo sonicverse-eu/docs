@@ -42,7 +42,7 @@ The core audio processor. It:
 
 ### Icecast2
 
-Distributes audio to listeners over HTTP. Provides six mount points for different format and bitrate combinations. The Icecast admin panel gives you raw listener statistics and mount point status.
+Distributes audio to listeners over HTTP. Provides six mount points for different format and bitrate combinations. The admin panel shows you raw listener statistics and mount point status.
 
 ### Nginx
 
@@ -83,4 +83,4 @@ The stack uses a three-tier fallback chain that activates automatically with no 
 2. **Fallback stream** — a backup studio feed (port 8011, MP3 192 kbps)
 3. **Emergency file** — a local MP3 file at `emergency-audio/fallback.mp3`
 
-When the primary stream disconnects, Liquidsoap switches to the fallback stream within seconds. If both studio feeds are offline, the emergency audio file loops until a stream reconnects. All transitions are handled by Liquidsoap and are seamless for listeners.
+When the primary stream disconnects, Liquidsoap switches to the fallback stream within seconds. If both studio feeds are offline, the emergency audio file loops until a stream reconnects. Liquidsoap handles all transitions seamlessly for listeners.
