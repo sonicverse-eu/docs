@@ -28,6 +28,6 @@ For production deployments, restrict the studio input ports to your studio's IP 
 sudo ./setup-firewall.sh --studio-ip 203.0.113.50
 ```
 
-This allows only the specified IP to connect on ports 8010 and 8011, while keeping ports 80 and 443 open to all traffic.
+This restricts ports 8010 and 8011 to the specified IP while keeping ports 80 and 443 open to all traffic.
 
 <Warning>If your studio has a dynamic IP address, you will need to update the firewall rules each time it changes. Consider using a VPN or a static IP for your studio connection.</Warning>
