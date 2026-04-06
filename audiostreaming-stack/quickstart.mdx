@@ -19,7 +19,7 @@ The fastest way to get started. This command clones the repository and runs the 
 bash <(curl -fsSL https://sonicverse.short.gy/install-audiostack)
 ```
 
-This is equivalent to the "minimal GHCR deployment" below and works from any directory.
+This is equivalent to the "minimal deployment" below and works from any directory.
 
 ## Option B: Interactive installer
 
@@ -27,7 +27,7 @@ Choose an installation mode based on your needs.
 
 <Tabs>
   <Tab title="Minimal deployment (default)">
-    Uses pre-built images from GHCR. No local build tools required — the fastest option for production.
+    Uses pre-built images from Docker Hub. No local build tools required — the fastest option for production.
 
     ```bash
     git clone https://github.com/sonicverse-eu/audiostreaming-stack.git
@@ -35,7 +35,7 @@ Choose an installation mode based on your needs.
     ./install.sh
     ```
 
-    This installs only what you need to run the stack: Docker, a `.env` configuration file, and pre-built container images.
+    This installs only what you need to run the stack: Docker, a `.env` configuration file, and pre-built container images from Docker Hub.
   </Tab>
   <Tab title="Development environment">
     Includes Node.js and Python dependencies for local development of the dashboard, analytics, or status API.
@@ -47,7 +47,7 @@ Choose an installation mode based on your needs.
     ```
   </Tab>
   <Tab title="Build locally (advanced)">
-    Builds container images from source instead of pulling from GHCR. Use this if you need to modify Dockerfiles or container-level code.
+    Builds container images from source instead of pulling from Docker Hub. Use this if you need to modify Dockerfiles or container-level code.
 
     ```bash
     git clone https://github.com/sonicverse-eu/audiostreaming-stack.git
@@ -58,6 +58,17 @@ Choose an installation mode based on your needs.
     You can combine flags: `./install.sh --build-local --dev`
   </Tab>
 </Tabs>
+
+## Container registries
+
+Pre-built images are published to both Docker Hub (primary) and GitHub Container Registry (mirror). The default configuration pulls from Docker Hub.
+
+| Registry | Image prefix | Role |
+|---|---|---|
+| Docker Hub | `docker.io/sonicverse/audiostreaming-stack-*` | Primary (default) |
+| GHCR | `ghcr.io/sonicverse-eu/audiostreaming-stack/*` | Mirror |
+
+<Tip>If you previously pinned images to GHCR, they continue to work. No changes are required for existing deployments.</Tip>
 
 ## Option C: Manual setup
 
