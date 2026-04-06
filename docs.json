@@ -11,17 +11,6 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Website",
-        "groups": [
-          {
-            "group": "Updates",
-            "pages": [
-              "website/changelog"
-            ]
-          }
-        ]
-      },
-      {
         "tab": "Audio Streaming Stack",
         "groups": [
           {
