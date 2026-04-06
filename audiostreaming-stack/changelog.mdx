@@ -3,6 +3,30 @@ title: Changelog
 description: Version history and release notes covering new features, bug fixes, breaking changes, and upgrade instructions for the audio streaming stack.
 ---
 
+<Update label="2026-04-06" description="Docker Hub migration and community guidelines">
+  ## Docker Hub as primary registry and Code of Conduct
+
+  ### New features
+
+  - **Docker Hub as primary registry** — Pre-built container images are now published to Docker Hub as the primary registry (`docker.io/sonicverse/...`). GHCR remains available as a mirror. The installer and `docker-compose.yml` pull from Docker Hub by default, which provides faster downloads for most users. See [container registries](#container-registries) below for image names.
+  - **Code of Conduct** — A [Code of Conduct](/audiostreaming-stack/code-of-conduct) now governs community interactions. All contributors and participants are expected to follow these guidelines.
+
+  ### Updates
+
+  - The `docker-compose.yml` now references Docker Hub image names (`docker.io/sonicverse/audiostreaming-stack-*`) instead of GHCR.
+  - The CI pipeline validates that images published to Docker Hub and GHCR have matching digests across `linux/amd64`, `linux/arm64`, and `linux/386` platforms.
+  - Contributing guidelines now reference the Code of Conduct.
+
+  ### Container registries
+
+  | Registry | Image prefix | Role |
+  |---|---|---|
+  | Docker Hub | `docker.io/sonicverse/audiostreaming-stack-*` | Primary (default) |
+  | GHCR | `ghcr.io/sonicverse-eu/audiostreaming-stack/*` | Mirror |
+
+  If you previously pinned images to GHCR, they continue to work. No action is required for existing deployments using the default configuration — `docker compose pull` fetches the latest images from Docker Hub automatically.
+</Update>
+
 <Update label="2026-04-06" description="v1.1.0" tags={["Release"]}>
   ## Easier installation and flexible deployment
 
@@ -11,7 +35,7 @@ description: Version history and release notes covering new features, bug fixes,
   ### New features
 
   - **One-line remote install** — You can now install the stack with a single `curl | bash` command, no need to manually clone the repository first. The installer detects remote execution and handles everything automatically.
-  - **Pre-built container images** — Deploy using pre-built images from GitHub Container Registry instead of building locally. This significantly reduces setup time on low-powered servers. See the [quickstart](/audiostreaming-stack/quickstart) for details.
+  - **Pre-built container images** — Deploy using pre-built images from Docker Hub instead of building locally. This significantly reduces setup time on low-powered servers. See the [quickstart](/audiostreaming-stack/quickstart) for details.
   - **Minimal deployment mode** — The installer now supports a minimal mode that starts only the core streaming services. It skips optional components like analytics and the status API, making it ideal for quick testing or resource-constrained environments.
   - **Development mode** — A new local build mode for contributors who want to build and test container images on their own machine.
   - **Root-level dependency installer** — A single script installs all development dependencies from the project root. Contributors no longer need to enter each service directory individually.

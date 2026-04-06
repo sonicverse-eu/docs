@@ -41,6 +41,7 @@
             "group": "Community",
             "pages": [
               "audiostreaming-stack/contributing",
+              "audiostreaming-stack/code-of-conduct",
               "audiostreaming-stack/security"
             ]
           },
