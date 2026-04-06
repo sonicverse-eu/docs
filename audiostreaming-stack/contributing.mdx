@@ -41,16 +41,16 @@ Contributions are welcome. This guide covers how to get started, submit changes,
 
 | Service | How to iterate |
 |---|---|
-| `status-dashboard` | `cd status-dashboard && npm install && npm run dev` |
-| `status-panel` | Edit `server.py`, then `docker compose restart status-panel` |
-| `analytics` | Edit `tracker.py`, then `docker compose restart analytics` |
-| `liquidsoap` | Edit `radio.liq`, then `docker compose restart liquidsoap` |
-| `nginx` | Edit `nginx.conf`, then `docker compose restart nginx` |
+| `dashboard` | `cd apps/dashboard && npm install && npm run dev` |
+| `status-api` | Edit `apps/status-api/server.py`, then `docker compose restart status-api` |
+| `analytics` | Edit `services/analytics/tracker.py`, then `docker compose restart analytics` |
+| `liquidsoap` | Edit `services/streaming/liquidsoap/radio.liq`, then `docker compose restart liquidsoap` |
+| `nginx` | Edit `infrastructure/nginx/nginx.conf`, then `docker compose restart nginx` |
 
 ## Code style
 
-- **Python** — `ruff check analytics/ status-panel/` (config in `pyproject.toml`)
-- **TypeScript** — `npm run lint` inside `status-dashboard/`
+- **Python** — `ruff check services/analytics/ apps/status-api/` (config in `pyproject.toml`)
+- **TypeScript** — `npm run lint` inside `apps/dashboard/`
 - **Shell** — `set -e`, 4-space indent, double-quoted variables
 - **Dockerfiles** — must pass `hadolint`
 

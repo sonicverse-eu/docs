@@ -51,28 +51,32 @@ Self-hosted Docker Compose stack for live radio streaming. Ingest from any studi
 ├── install.sh
 ├── init-letsencrypt.sh
 ├── setup-firewall.sh
-├── icecast/
-│   ├── Dockerfile
-│   └── icecast.xml
-├── liquidsoap/
-│   ├── Dockerfile
-│   └── radio.liq
-├── nginx/
-│   ├── Dockerfile
-│   └── nginx.conf
-├── analytics/
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   └── tracker.py
-├── status-panel/              ← API backend (Docker)
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   └── server.py
-├── status-dashboard/          ← Next.js frontend (Appwrite Sites)
-│   ├── app/
-│   ├── components/
-│   ├── lib/
-│   └── package.json
+├── services/
+│   ├── streaming/
+│   │   ├── icecast/
+│   │   │   ├── Dockerfile
+│   │   │   └── icecast.xml
+│   │   └── liquidsoap/
+│   │       ├── Dockerfile
+│   │       └── radio.liq
+│   └── analytics/
+│       ├── Dockerfile
+│       ├── requirements.txt
+│       └── tracker.py
+├── infrastructure/
+│   └── nginx/
+│       ├── Dockerfile
+│       └── nginx.conf
+├── apps/
+│   ├── status-api/            ← API backend (Docker)
+│   │   ├── Dockerfile
+│   │   ├── requirements.txt
+│   │   └── server.py
+│   └── dashboard/             ← Next.js frontend (Appwrite Sites)
+│       ├── app/
+│       ├── components/
+│       ├── lib/
+│       └── package.json
 └── emergency-audio/
     └── fallback.mp3
 ```
