@@ -3,6 +3,56 @@ title: Changelog
 description: Version history and release notes covering new features, bug fixes, breaking changes, and upgrade instructions for the audio streaming stack.
 ---
 
+<Update label="2026-04-06" description="v1.4.0" tags={["Release"]}>
+  ## Security hardening and dependency updates
+
+  This release focuses on supply-chain security, container hardening, and automated code review tooling.
+
+  ### New features
+
+  - **CodeRabbit automated code review** — Pull requests targeting `main` now receive automated reviews from [CodeRabbit](https://coderabbit.ai) with per-path review instructions tuned to each service's tooling (Ruff for Python, ESLint for TypeScript, hadolint for Dockerfiles).
+  - **TruffleHog secret scanning** — A CI workflow scans every push and pull request for accidentally committed secrets. See [security](/audiostreaming-stack/security) for local usage instructions.
+  - **Non-root containers** — The Status API, Nginx, Analytics, and Icecast containers now run as non-root users (UID 1000) by default, reducing the blast radius of container escapes.
+
+  ### Security updates
+
+  - Upgraded Nginx base image from `alpine` to `stable-alpine-slim` (pinned)
+  - Upgraded Liquidsoap base image to latest `v2.4.x` release
+  - Patched `libsndfile`, `libfreetype6`, `libpng`, `openssl-provider-legacy`, and `dpkg` in the Liquidsoap image
+  - Upgraded Werkzeug from 2.3.8 to 3.1.6, fixing debugger RCE and multipart DoS vulnerabilities
+  - Upgraded requests from 2.32.2 to 2.33.0, fixing credential leakage via `.netrc` parsing
+  - Upgraded gunicorn from 22.0.0 to 23.0.0, fixing HTTP request splitting
+  - Removed `docker-cli` from the Status API image in favor of the Python Docker SDK, reducing the attack surface
+
+  **Full changelog**: [v1.4.0](https://github.com/sonicverse-eu/audiostreaming-stack/releases/tag/v1.4.0)
+</Update>
+
+<Update label="2026-04-06" description="v1.3.0" tags={["Release"]}>
+  ## Improved status page and installer reliability
+
+  ### New features
+
+  - **Expanded stream endpoint cards** — The root status page now shows cards for all stream formats (MP3 320 kbps, AAC 128 kbps, and others) with SVG icons and improved descriptions.
+  - **Responsive status page layout** — The endpoint grid uses a two-column layout on desktop and single-column on mobile.
+  - **SEO protection** — The root status page now includes a `noindex, nofollow` meta tag to prevent search engine indexing.
+
+  ### Updates
+
+  - The installer now pulls fresh Docker images without cache during updates, ensuring deployments always use the latest images.
+
+  **Full changelog**: [v1.3.0](https://github.com/sonicverse-eu/audiostreaming-stack/releases/tag/v1.3.0)
+</Update>
+
+<Update label="2026-04-06" description="v1.2.1" tags={["Release"]}>
+  ## TypeScript configuration update
+
+  ### Updates
+
+  - Updated the TypeScript configuration to include additional type definitions for Next.js, improving type checking and editor support in the dashboard project.
+
+  **Full changelog**: [v1.2.1](https://github.com/sonicverse-eu/audiostreaming-stack/releases/tag/v1.2.1)
+</Update>
+
 <Update label="2026-04-06" description="v1.2.0" tags={["Release"]}>
   ## Branded status page and dashboard improvements
 
