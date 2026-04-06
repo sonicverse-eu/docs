@@ -65,6 +65,18 @@ All participants are expected to follow the [Code of Conduct](/audiostreaming-st
 - **Shell** — `set -e`, 4-space indent, double-quoted variables
 - **Dockerfiles** — must pass `hadolint`
 
+## Commit messages
+
+Use [Conventional Commits](https://www.conventionalcommits.org). Valid types: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `ci`, `style`, `perf`.
+
+Examples:
+
+```text
+feat(dashboard): add stream health indicator
+fix(liquidsoap): handle empty fallback playlist
+docs: update environment variable table
+```
+
 ## Submitting a pull request
 
 1. Create a branch from `main` (`git checkout -b feat/my-feature`)
@@ -72,6 +84,7 @@ All participants are expected to follow the [Code of Conduct](/audiostreaming-st
 3. Run linters locally before pushing
 4. Fill in the pull request template completely
 5. Reference any related issue with `Closes #123`
+6. Expect a maintainer review within a few business days; address feedback with additional commits (do not force-push after review starts)
 
 ## Adding environment variables
 
@@ -89,3 +102,9 @@ docker compose logs --tail=50 <service>
 ```
 
 <Warning>Do not open public issues for security vulnerabilities. See [security](/audiostreaming-stack/security) instead.</Warning>
+
+## Communication
+
+- **GitHub Issues** — bug reports and feature requests
+- **GitHub Discussions** — questions and design conversations
+- **Slack** — join the [Sonicverse OSS Slack](https://join.slack.com/t/sonicverse-oss/shared_invite/zt-3u969i5rr-cmfgEycFAi8V7Baj0uBx0A) for real-time discussion
