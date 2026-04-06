@@ -1,0 +1,45 @@
+# CodeRabbit configuration for sonicverse-eu/docs
+# https://docs.coderabbit.ai/getting-started/configure-coderabbit
+
+language: "en-US"
+
+reviews:
+  profile: "chill"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - main
+
+  path_instructions:
+    - path: "**/*.mdx"
+      instructions: |
+        Review documentation content for:
+        - Clarity and conciseness — one idea per sentence
+        - Active voice and second-person address ("you")
+        - Sentence case for headings (e.g. "Getting started" not "Getting Started")
+        - Bold formatting for UI elements (e.g. Click **Settings**)
+        - Correct use of Mintlify components: <Steps>, <Step>, <Warning>, <Note>
+        - Fenced code blocks with a language identifier (bash, typescript, etc.)
+        - Frontmatter limited to `title` and `description` unless a specific page requires more
+        - No broken internal links or references
+
+    - path: "docs.json"
+      instructions: |
+        Review navigation structure and configuration for:
+        - Valid JSON syntax
+        - Consistent tab and group naming conventions
+        - All referenced page paths correspond to existing .mdx files
+
+    - path: "**/*.md"
+      instructions: |
+        Review for clarity, accuracy, and adherence to the project's writing guidelines:
+        active voice, second-person address, sentence-case headings, and concise sentences.
+
+chat:
+  auto_reply: true
