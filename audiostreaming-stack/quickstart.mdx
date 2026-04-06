@@ -11,28 +11,63 @@ description: Get the audio streaming stack running on your server
   - Ports 80, 443, 8010, and 8011 open
 </Info>
 
-## Option A: Interactive installer (recommended)
+## One-liner install
 
-The installer handles Docker checks, configuration, SSL setup, and launching the stack.
+Run the stack from any directory with a single command. The installer clones the repository, checks prerequisites, and walks you through configuration:
+
+```bash
+bash <(curl -fsSL https://sonicverse.short.gy/install-audiostack)
+```
+
+This uses pre-built container images from GitHub Container Registry for the fastest setup (typically 2–5 minutes).
+
+## Interactive installer
+
+If you prefer to clone the repository first:
 
 <Tabs>
-  <Tab title="Pre-built images (fastest)">
-    ```bash
-    git clone https://github.com/sonicverse-eu/audiostreaming-stack.git
-    cd audiostreaming-stack
-    ./install.sh --use-prebuilt
-    ```
-  </Tab>
-  <Tab title="Build locally">
+  <Tab title="Pre-built images (default)">
+    Uses pre-built images from GHCR — no local building required:
+
     ```bash
     git clone https://github.com/sonicverse-eu/audiostreaming-stack.git
     cd audiostreaming-stack
     ./install.sh
     ```
   </Tab>
+  <Tab title="Development mode">
+    Installs Node.js and Python dependencies for local development of the dashboard and APIs:
+
+    ```bash
+    git clone https://github.com/sonicverse-eu/audiostreaming-stack.git
+    cd audiostreaming-stack
+    ./install.sh --dev
+    ```
+
+    You can also use the one-liner with `--dev`:
+
+    ```bash
+    bash <(curl -fsSL https://sonicverse.short.gy/install-audiostack) --dev
+    ```
+  </Tab>
+  <Tab title="Build locally">
+    Builds container images on your machine instead of pulling from GHCR. Use this if you need to modify container code:
+
+    ```bash
+    git clone https://github.com/sonicverse-eu/audiostreaming-stack.git
+    cd audiostreaming-stack
+    ./install.sh --build-local
+    ```
+
+    Combine with `--dev` for a full development environment:
+
+    ```bash
+    ./install.sh --build-local --dev
+    ```
+  </Tab>
 </Tabs>
 
-## Option B: Manual setup
+## Manual setup
 
 <Steps>
   <Step title="Clone and configure">

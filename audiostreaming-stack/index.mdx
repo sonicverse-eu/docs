@@ -39,7 +39,7 @@ Self-hosted Docker Compose stack for live radio streaming. Ingest from any studi
 | **Icecast2** | Stream distribution server with six mount points |
 | **Liquidsoap** | Stream processor — ingest, fallback chain, encoding, HLS output |
 | **Nginx** | Public-facing reverse proxy and HLS segment serving |
-| **Status Panel** | Flask API backend — stream health, container status, emergency audio management |
+| **Status API** | Flask API backend — stream health, container status, emergency audio management |
 | **Analytics** | Polls Icecast stats and sends events to PostHog with Pushover alerts |
 | **Certbot** | Automatic Let's Encrypt certificate renewal |
 
@@ -51,28 +51,32 @@ Self-hosted Docker Compose stack for live radio streaming. Ingest from any studi
 ├── install.sh
 ├── init-letsencrypt.sh
 ├── setup-firewall.sh
-├── icecast/
-│   ├── Dockerfile
-│   └── icecast.xml
-├── liquidsoap/
-│   ├── Dockerfile
-│   └── radio.liq
-├── nginx/
-│   ├── Dockerfile
-│   └── nginx.conf
-├── analytics/
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   └── tracker.py
-├── status-panel/              ← API backend (Docker)
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   └── server.py
-├── status-dashboard/          ← Next.js frontend (Appwrite Sites)
-│   ├── app/
-│   ├── components/
-│   ├── lib/
-│   └── package.json
+├── apps/
+│   ├── status-api/            ← Flask API backend (Docker)
+│   │   ├── Dockerfile
+│   │   ├── requirements.txt
+│   │   └── server.py
+│   └── dashboard/             ← Next.js frontend (Appwrite Sites)
+│       ├── app/
+│       ├── components/
+│       ├── lib/
+│       └── package.json
+├── services/
+│   ├── analytics/
+│   │   ├── Dockerfile
+│   │   ├── requirements.txt
+│   │   └── tracker.py
+│   └── streaming/
+│       ├── icecast/
+│       │   ├── Dockerfile
+│       │   └── icecast.xml
+│       └── liquidsoap/
+│           ├── Dockerfile
+│           └── radio.liq
+├── infrastructure/
+│   └── nginx/
+│       ├── Dockerfile
+│       └── nginx.conf
 └── emergency-audio/
     └── fallback.mp3
 ```
