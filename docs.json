@@ -59,6 +59,29 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "Website",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": [
+              "website/index"
+            ]
+          },
+          {
+            "group": "Community",
+            "pages": [
+              "website/contributing"
+            ]
+          },
+          {
+            "group": "Updates",
+            "pages": [
+              "website/changelog"
+            ]
+          }
+        ]
       }
     ],
     "global": {
