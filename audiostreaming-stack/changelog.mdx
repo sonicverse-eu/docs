@@ -3,18 +3,38 @@ title: Changelog
 description: Version history and release notes covering new features, bug fixes, breaking changes, and upgrade instructions for the audio streaming stack.
 ---
 
-<Update label="2026-04-06" description="Docker Hub migration and community guidelines">
+<Update label="2026-04-06" description="v1.2.0" tags={["Release"]}>
+  ## Branded status page and dashboard improvements
+
+  This release adds a customizable status page and improves the operator dashboard.
+
+  ### New features
+
+  - **Branded root status page** — The Nginx reverse proxy now serves a styled HTML page at the root URL (`/`) featuring your station name, stream endpoints, and admin contact. The page is generated at container startup from `STATION_NAME` and `STATION_ADMIN_EMAIL` environment variables. See [configuration](/audiostreaming-stack/configuration) for details.
+  - **Dashboard branding** — The operator dashboard now displays the Sonicverse brand with gradient text in the header, login form, and a new footer with copyright, license, and documentation links.
+
+  ### Updates
+
+  - Dashboard layout uses flexbox for consistent vertical alignment across pages.
+  - TypeScript configuration updated to `jsx: react-jsx` for React 18+ compatibility.
+  - Docker build workflow now handles both legacy and new manifest fields when verifying runtime platforms.
+
+  **Full changelog**: [v1.2.0](https://github.com/sonicverse-eu/audiostreaming-stack/releases/tag/v1.2.0)
+</Update>
+
+<Update label="2026-04-06" description="v1.1.1" tags={["Release"]}>
   ## Docker Hub as primary registry and Code of Conduct
 
   ### New features
 
   - **Docker Hub as primary registry** — Pre-built container images are now published to Docker Hub as the primary registry (`docker.io/sonicverse/...`). GHCR remains available as a mirror. The installer and `docker-compose.yml` pull from Docker Hub by default, which provides faster downloads for most users. See [container registries](#container-registries) below for image names.
   - **Code of Conduct** — A [Code of Conduct](/audiostreaming-stack/code-of-conduct) now governs community interactions. All contributors and participants are expected to follow these guidelines.
+  - **Blacksmith CI runners** — GitHub Actions workflows now run on Blacksmith runners for faster builds, automatic Docker layer caching, and improved observability.
 
   ### Updates
 
   - The `docker-compose.yml` now references Docker Hub image names (`docker.io/sonicverse/audiostreaming-stack-*`) instead of GHCR.
-  - The CI pipeline validates that images published to Docker Hub and GHCR have matching digests across `linux/amd64`, `linux/arm64`, and `linux/386` platforms.
+  - The CI pipeline validates that images published to Docker Hub and GHCR have matching digests across `linux/amd64`, `linux/arm64`, and `linux/386` platforms, using per-platform digest comparison for more robust verification.
   - Contributing guidelines now reference the Code of Conduct.
 
   ### Container registries
@@ -25,6 +45,8 @@ description: Version history and release notes covering new features, bug fixes,
   | GHCR | `ghcr.io/sonicverse-eu/audiostreaming-stack/*` | Mirror |
 
   If you previously pinned images to GHCR, they continue to work. No action is required for existing deployments using the default configuration — `docker compose pull` fetches the latest images from Docker Hub automatically.
+
+  **Full changelog**: [v1.1.1](https://github.com/sonicverse-eu/audiostreaming-stack/releases/tag/v1.1.1)
 </Update>
 
 <Update label="2026-04-06" description="v1.1.0" tags={["Release"]}>
