@@ -35,6 +35,47 @@ You can expect an acknowledgment within **48 hours**. Critical issues receive a 
 - Social engineering
 - Vulnerabilities in third-party dependencies (report those upstream)
 
+## Secret scanning
+
+This repository uses [TruffleHog](https://trufflesecurity.com/open-source/trufflehog) to detect accidentally committed secrets and sensitive data.
+
+A configuration file is provided at [`trufflehog.toml`](https://github.com/sonicverse-eu/docs/blob/main/trufflehog.toml) in the repository root.
+
+### Running TruffleHog locally
+
+Install TruffleHog:
+
+```bash
+# macOS
+brew install trufflehog
+
+# Linux / CI (latest release binary)
+curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | sh -s -- -b /usr/local/bin
+```
+
+Scan the repository against the full git history:
+
+```bash
+trufflehog git file://. --config trufflehog.toml
+```
+
+Scan only the current working tree (faster, good for pre-commit checks):
+
+```bash
+trufflehog filesystem . --config trufflehog.toml
+```
+
+### Running in CI
+
+Add TruffleHog to your GitHub Actions workflow:
+
+```yaml
+- name: Scan for secrets
+  uses: trufflesecurity/trufflehog@main
+  with:
+    extra_args: --config trufflehog.toml
+```
+
 ## Supported versions
 
 | Version | Supported |

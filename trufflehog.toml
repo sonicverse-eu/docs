@@ -1,0 +1,44 @@
+# TruffleHog configuration for sonicverse-eu/docs
+# Reference: https://trufflesecurity.com/open-source/trufflehog
+
+# ── Scanning behaviour ──────────────────────────────────────────────────────
+
+# Only flag results with a verified secret (removes most false-positives).
+# Set to false to also surface unverified (potential) findings.
+only_verified = false
+
+# Which detectors to enable. "all" activates every built-in detector.
+# Replace with a comma-separated list (e.g. "AWS,GitHub") to scope scans.
+include_detectors = "all"
+
+# ── Exclusions ───────────────────────────────────────────────────────────────
+# Paths listed here are skipped during scanning.
+# Add any auto-generated, vendored, or otherwise irrelevant directories.
+
+[[exclude_paths]]
+path = ".git"
+
+[[exclude_paths]]
+path = "node_modules"
+
+[[exclude_paths]]
+path = ".mintignore"
+
+# ── Detectors ────────────────────────────────────────────────────────────────
+# The default detector set covers the most common credential types.
+# Uncomment and extend the list below to limit scanning to specific detectors.
+
+# [[detectors]]
+# name = "AWS"
+
+# [[detectors]]
+# name = "GitHub"
+
+# [[detectors]]
+# name = "Slack"
+
+# ── Output ────────────────────────────────────────────────────────────────────
+# Supported formats: json, json-legacy, github-actions, sarif
+# Use "json" for machine-readable output or CI integration.
+
+output_format = "json"
