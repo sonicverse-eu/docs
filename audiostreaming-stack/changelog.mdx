@@ -3,6 +3,18 @@ title: Changelog
 description: Version history and release notes covering new features, bug fixes, breaking changes, and upgrade instructions for the audio streaming stack.
 ---
 
+<Update label="2026-04-06" description="v1.4.1" tags={["Release"]}>
+  ## CI fixes and ARM64 support
+
+  ### Bug fixes
+
+  - **ARM64 support for Status API** — The Status API service now builds and runs on `linux/arm64`, fixing `no matching manifest` errors on ARM-based servers.
+  - **Removed deprecated `--no-parallel` flag** — Docker Compose pull commands no longer use the deprecated `--no-parallel` option, eliminating warnings on newer Docker Compose versions.
+  - **Improved Docker digest verification** — Enhanced Docker manifest inspection with retries, better error handling, and normalized digest comparison across registries.
+
+  **Full changelog**: [v1.4.0...v1.4.1](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.4.0...v1.4.1)
+</Update>
+
 <Update label="2026-04-06" description="v1.4.0" tags={["Release"]}>
   ## Security hardening and dependency updates
 
