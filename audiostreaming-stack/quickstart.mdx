@@ -11,28 +11,55 @@ description: Install and run the audio streaming stack on your Linux server usin
   - Ports 80, 443, 8010, and 8011 open
 </Info>
 
-## Option A: Interactive installer (recommended)
+## Option A: One-liner installation
 
-The installer handles Docker checks, configuration, SSL setup, and launching the stack.
+The fastest way to get started. This command clones the repository and runs the interactive installer:
+
+```bash
+bash <(curl -fsSL https://sonicverse.short.gy/install-audiostack)
+```
+
+This is equivalent to the "minimal GHCR deployment" below and works from any directory.
+
+## Option B: Interactive installer
+
+Choose an installation mode based on your needs.
 
 <Tabs>
-  <Tab title="Pre-built images (fastest)">
-    ```bash
-    git clone https://github.com/sonicverse-eu/audiostreaming-stack.git
-    cd audiostreaming-stack
-    ./install.sh --use-prebuilt
-    ```
-  </Tab>
-  <Tab title="Build locally">
+  <Tab title="Minimal deployment (default)">
+    Uses pre-built images from GHCR. No local build tools required — the fastest option for production.
+
     ```bash
     git clone https://github.com/sonicverse-eu/audiostreaming-stack.git
     cd audiostreaming-stack
     ./install.sh
     ```
+
+    This installs only what you need to run the stack: Docker, a `.env` configuration file, and pre-built container images.
+  </Tab>
+  <Tab title="Development environment">
+    Includes Node.js and Python dependencies for local development of the dashboard, analytics, or status API.
+
+    ```bash
+    git clone https://github.com/sonicverse-eu/audiostreaming-stack.git
+    cd audiostreaming-stack
+    ./install.sh --dev
+    ```
+  </Tab>
+  <Tab title="Build locally (advanced)">
+    Builds container images from source instead of pulling from GHCR. Use this if you need to modify Dockerfiles or container-level code.
+
+    ```bash
+    git clone https://github.com/sonicverse-eu/audiostreaming-stack.git
+    cd audiostreaming-stack
+    ./install.sh --build-local
+    ```
+
+    You can combine flags: `./install.sh --build-local --dev`
   </Tab>
 </Tabs>
 
-## Option B: Manual setup
+## Option C: Manual setup
 
 <Steps>
   <Step title="Clone and configure">
@@ -102,6 +129,23 @@ The installer handles Docker checks, configuration, SSL setup, and launching the
     - **HLS:** open `http://<host>/hls/live.m3u8` in Safari or VLC
   </Step>
 </Steps>
+
+## Install development dependencies separately
+
+If you already ran `./install.sh` without `--dev` and now want to add development dependencies:
+
+```bash
+./install-dev-deps.sh
+```
+
+This installs Node.js dependencies for the dashboard and Python dependencies for analytics and the status API. Available flags:
+
+| Flag | Description |
+|---|---|
+| `--ci` | Deterministic installs using lockfiles |
+| `--python-user` | Install Python packages with `--user` |
+| `--skip-node` | Skip dashboard (JavaScript) dependencies |
+| `--skip-python` | Skip analytics and status API (Python) dependencies |
 
 ## Install Docker
 

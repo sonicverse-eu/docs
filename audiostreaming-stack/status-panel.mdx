@@ -3,7 +3,7 @@ title: Status panel
 description: Monitor live listener counts, container health, and recent alerts from the real-time operator dashboard built with Flask and Next.js.
 ---
 
-The status panel consists of two parts: a Flask API backend running inside the Docker stack, and a Next.js frontend designed to be deployed on Appwrite Sites.
+The status panel consists of two parts: a Flask API backend (`status-api`) running inside the Docker stack, and a Next.js frontend (`dashboard`) designed to be deployed on Appwrite Sites.
 
 ## Features
 
@@ -25,12 +25,12 @@ The API backend runs as a Docker container in the stack and is proxied through N
 
 ## Dashboard deployment
 
-The frontend is a Next.js application in the `status-dashboard/` directory.
+The frontend is a Next.js application in the `apps/dashboard/` directory.
 
 <Steps>
   <Step title="Configure environment">
     ```bash
-    cd status-dashboard
+    cd apps/dashboard
     cp .env.local.example .env.local
     ```
 

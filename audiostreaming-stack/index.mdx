@@ -39,11 +39,11 @@ Self-hosted Docker Compose stack for live radio streaming. Ingest from any studi
 | **Icecast2** | Stream distribution server with six mount points |
 | **Liquidsoap** | Stream processor — ingest, fallback chain, encoding, HLS output |
 | **Nginx** | Public-facing reverse proxy and HLS segment serving |
-| **Status Panel** | Flask API backend — stream health, container status, emergency audio management |
+| **Status API** | Flask API backend — stream health, container status, emergency audio management |
 | **Analytics** | Polls Icecast stats and sends events to PostHog with Pushover alerts |
 | **Certbot** | Automatic Let's Encrypt certificate renewal |
 
-## File structure
+## Repository structure
 
 ```text
 ├── docker-compose.yml
@@ -51,31 +51,44 @@ Self-hosted Docker Compose stack for live radio streaming. Ingest from any studi
 ├── install.sh
 ├── init-letsencrypt.sh
 ├── setup-firewall.sh
-├── icecast/
-│   ├── Dockerfile
-│   └── icecast.xml
-├── liquidsoap/
-│   ├── Dockerfile
-│   └── radio.liq
-├── nginx/
-│   ├── Dockerfile
-│   └── nginx.conf
-├── analytics/
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   └── tracker.py
-├── status-panel/              ← API backend (Docker)
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   └── server.py
-├── status-dashboard/          ← Next.js frontend (Appwrite Sites)
-│   ├── app/
-│   ├── components/
-│   ├── lib/
-│   └── package.json
+├── apps/
+│   ├── status-api/            ← API backend (Docker)
+│   │   ├── Dockerfile
+│   │   ├── requirements.txt
+│   │   └── server.py
+│   └── dashboard/             ← Next.js frontend (Appwrite Sites)
+│       ├── app/
+│       ├── components/
+│       ├── lib/
+│       └── package.json
+├── services/
+│   ├── analytics/
+│   │   ├── Dockerfile
+│   │   ├── requirements.txt
+│   │   └── tracker.py
+│   └── streaming/
+│       ├── icecast/
+│       │   ├── Dockerfile
+│       │   └── icecast.xml
+│       └── liquidsoap/
+│           ├── Dockerfile
+│           └── radio.liq
+├── infrastructure/
+│   └── nginx/
+│       ├── Dockerfile
+│       └── nginx.conf
 └── emergency-audio/
     └── fallback.mp3
 ```
+
+- `apps/` contains operator-facing applications: the Next.js dashboard and the Flask status API.
+- `services/` contains deployable runtime services: streaming (Icecast, Liquidsoap) and analytics.
+- `infrastructure/` contains edge and routing infrastructure (Nginx reverse proxy).
+- `emergency-audio/` stores local fallback media used when both studio streams are unavailable.
+
+## Community
+
+Join the [Sonicverse OSS Slack](https://join.slack.com/t/sonicverse-oss/shared_invite/zt-3u969i5rr-cmfgEycFAi8V7Baj0uBx0A) to ask questions, share feedback, and connect with other operators.
 
 ## License
 
