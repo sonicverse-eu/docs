@@ -14,6 +14,19 @@ The status panel consists of two parts: a Flask API backend (`status-api`) runni
 - Emergency audio upload and management
 - Role-based write access via Appwrite teams
 
+## Branded root page
+
+Nginx serves a styled HTML status page at your server's root URL (`/`). The page displays your station name, available stream endpoints, and admin contact information.
+
+The page is generated automatically at container startup from two environment variables:
+
+| Variable | Description | Default |
+|---|---|---|
+| `STATION_NAME` | Station name shown on the page | `My Radio Station` |
+| `STATION_ADMIN_EMAIL` | Contact email shown on the page | `admin@example.com` |
+
+No manual configuration is needed if you already set these values in your `.env` file — the root page picks them up automatically. See [configuration](/audiostreaming-stack/configuration) for all station variables.
+
 ## API backend
 
 The API backend runs as a Docker container in the stack and is proxied through Nginx at `/api/`. It provides endpoints for:
@@ -25,7 +38,7 @@ The API backend runs as a Docker container in the stack and is proxied through N
 
 ## Dashboard deployment
 
-The frontend is a Next.js application in the `apps/dashboard/` directory.
+The frontend is a Next.js application in the `apps/dashboard/` directory. It includes Sonicverse branding in the header and login form, and a footer with copyright, license, and documentation links.
 
 <Steps>
   <Step title="Configure environment">
