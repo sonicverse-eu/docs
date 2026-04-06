@@ -1,0 +1,82 @@
+---
+title: Contributing
+description: Fork the repository, set up a local development environment, and submit pull requests for the Sonicverse website.
+---
+
+Contributions are welcome. This guide covers how to get started, submit changes, and follow project conventions.
+
+## Getting started
+
+<Steps>
+  <Step title="Fork and clone">
+    Fork the repository on GitHub, then clone your fork:
+
+    ```bash
+    git clone https://github.com/<your-username>/website.git
+    cd website
+    ```
+  </Step>
+
+  <Step title="Install dependencies">
+    ```bash
+    pnpm install
+    ```
+  </Step>
+
+  <Step title="Start the dev server">
+    ```bash
+    pnpm dev
+    ```
+  </Step>
+</Steps>
+
+## Content changes
+
+Most content updates happen in:
+
+- `content/pages/*.mdx` — singleton pages (home, about, contribute, contact)
+- `content/projects/*.mdx` — project entries
+- `content/site/site-config.ts` — shared site config (navigation, footer links, docs URL)
+
+When adding a new project, include clear frontmatter and enough body copy for the project detail page to stand on its own.
+
+## Code expectations
+
+- TypeScript only
+- Functional React components only
+- Server components by default
+- Tailwind CSS v4
+- Preserve keyboard accessibility and dark mode behavior
+
+## Required checks
+
+Run these before opening a PR:
+
+```bash
+pnpm format:check
+pnpm lint
+pnpm typecheck
+pnpm build
+```
+
+## Commits
+
+Conventional Commits are required. Valid types: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `ci`, `style`, `perf`.
+
+Examples:
+
+```text
+feat: add project detail template
+fix(contact): validate topic selection
+docs: rewrite contribution guide
+```
+
+## Submitting a pull request
+
+1. Create a branch from `main`
+2. Keep each PR focused on a single logical change
+3. Run all required checks locally before pushing
+4. Fill in the pull request template completely
+5. Reference any related issue with `Closes #123`
+
+<Warning>Do not open public issues for security vulnerabilities. Follow the [security policy](https://github.com/sonicverse-eu/website/blob/main/SECURITY.md) instead.</Warning>

@@ -1,25 +1,112 @@
 ---
 title: Changelog
-description: Version history and release notes for the Sonicverse website — new pages, design updates, and improvements to the public site experience.
+description: Version history and release notes for the Sonicverse website — features, bug fixes, and infrastructure changes.
 ---
 
 <Update label="2026-04-06" description="v0.27.0" tags={["Release"]}>
-  ## Refreshed site with new project pages and contact flow
+  ## MDX content migration and site improvements
 
-  The Sonicverse website has been rebuilt with a clearer structure, updated branding, and new ways to get in touch.
+  Major release migrating all site content to local MDX, removing CMS dependencies, and refining the public-facing experience.
 
   ### New features
 
-  - **Project index** — A new [projects page](https://sonicverse.eu/projects) lets you browse all active Sonicverse projects in one place, with dedicated pages for each project.
-  - **Improved contact form** — The contact page now routes bug reports and feature requests directly to GitHub Issues, so your feedback reaches the right team faster.
-  - **Slack community** — You can now join the [Sonicverse community Slack](https://join.slack.com/t/sonicverse-oss/shared_invite/zt-3u969i5rr-cmfgEycFAi8V7Baj0uBx0A) to ask questions, share feedback, and connect with other users.
+  - **MDX content migration** — All site content now lives in the repository as MDX files. No external CMS or Prismic dependencies.
+  - **GitHub issue integration** — Contact form now creates GitHub issues for bug reports and feature requests.
+  - **Slack community link** — Added Slack invite to contact page and site configuration.
+  - **Updated project index** — Added Audiostreaming Stack, removed deprecated projects, and refined site messaging.
+  - **Enhanced page layout** — Background glow effects and improved metrics row interactions.
 
-  ### Updates
+  ### Bug fixes
 
-  - The site has been refreshed with updated Sonicverse branding and clearer messaging throughout.
-  - About, Contribute, and Contact pages now have more concise, action-oriented content.
-  - The homepage now highlights [Audiostreaming Stack](/audiostreaming-stack/index) as the featured project.
-  - Site content is now managed as local MDX files instead of a third-party CMS, improving page load times and reliability.
+  - Updated contact email address in site configuration.
+  - Updated reporting email address in Code of Conduct.
 
   **Full changelog**: [v0.27.0](https://github.com/sonicverse-eu/website/releases/tag/v0.27.0)
+</Update>
+
+<Update label="2026-03-31" description="v0.25.0" tags={["Release"]}>
+  ## On-demand broadcast pages
+
+  ### New features
+
+  - **On-demand broadcast pages** — Added pages for on-demand broadcast content.
+
+  **Full changelog**: [v0.25.0](https://github.com/sonicverse-eu/website/releases/tag/v0.25.0)
+</Update>
+
+<Update label="2026-03-31" description="v0.24.0" tags={["Release"]}>
+  ## Configurable grid layouts and cache fixes
+
+  ### New features
+
+  - **Configurable column counts** — Grid slices now support configurable column counts.
+
+  ### Bug fixes
+
+  - Polished desktop navigation hover underline.
+  - Centered sparse channel columns.
+  - Reduced production Prismic cache duration.
+  - Fixed cache profile for `revalidateTag`.
+  - Fixed immediate Prismic cache expiry on revalidation.
+
+  **Full changelog**: [v0.24.0](https://github.com/sonicverse-eu/website/releases/tag/v0.24.0)
+</Update>
+
+<Update label="2026-03-31" description="v0.23.0" tags={["Release"]}>
+  ## Prismic slice library expansion
+
+  ### New features
+
+  - **Team section slice** — Reusable Prismic Team section component.
+  - **Content grid slice** — Configurable content grid / resources section.
+  - **Feature grid slice** — Reusable feature grid layout.
+  - **Feature spotlight slice** — Feature spotlight with layout and motion controls.
+  - **Logo cloud trust bar** — Reusable logo cloud trust bar slice.
+
+  **Full changelog**: [v0.23.0](https://github.com/sonicverse-eu/website/releases/tag/v0.23.0)
+</Update>
+
+<Update label="2026-03-31" description="v0.17.0" tags={["Release"]}>
+  ## Interactive glow and frost components
+
+  ### New features
+
+  - **Glow cluster and frost cards** — Smooth glow cluster and frost card components.
+  - **Knowledge base index** — Prismic-backed knowledge base index page.
+
+  ### Styling
+
+  - Smoothed and intensified interactive glow states.
+
+  **Full changelog**: [v0.17.0](https://github.com/sonicverse-eu/website/releases/tag/v0.17.0)
+</Update>
+
+<Update label="2026-03-30" description="v0.15.0" tags={["Release"]}>
+  ## Nested page routing
+
+  ### New features
+
+  - **Nested page routes** — Added nested Prismic page routing and overview slices.
+
+  ### Bug fixes
+
+  - Fixed async Prismic client usage.
+  - Restored slice rendering by removing invalid routes.
+
+  **Full changelog**: [v0.15.0](https://github.com/sonicverse-eu/website/releases/tag/v0.15.0)
+</Update>
+
+<Update label="2026-03-29" description="v0.14.0" tags={["Release"]}>
+  ## Interactive motion and Prismic improvements
+
+  ### New features
+
+  - **Interactive motion** — Added smooth interactive motion across site surfaces.
+
+  ### Bug fixes
+
+  - Restored Prismic preview revalidation and pointer glow.
+  - Fixed Prismic revalidation auth to accept secrets from JSON and headers.
+
+  **Full changelog**: [v0.14.0](https://github.com/sonicverse-eu/website/releases/tag/v0.14.0)
 </Update>
