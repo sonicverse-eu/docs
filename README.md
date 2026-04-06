@@ -1,55 +1,54 @@
-# Mintlify Starter Kit
+# Sonicverse Docs
 
-Use the starter kit to get your docs deployed and ready to customize.
+Documentation for [Sonicverse](https://sonicverse.eu) — open-source software for independent media.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+Powered by [Mintlify](https://mintlify.com).
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+## Projects
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+- **[Audio Streaming Stack](https://sonicverse.eu/audiostreaming-stack)** — Self-hosted Docker Compose stack for live radio streaming. Ingest from any studio encoder and deliver via Icecast2 and HLS adaptive bitrate, with automatic fallback, silence detection, analytics, alerts, and a real-time operator dashboard.
 
-## AI-assisted writing
+## Local development
 
-Set up your AI coding tool to work with Mintlify:
+Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview documentation changes locally:
 
 ```bash
-npx skills add https://mintlify.com/docs
-```
-
-This command installs Mintlify's documentation skill for your configured AI tools like Claude Code, Cursor, Windsurf, and others. The skill includes component reference, writing standards, and workflow guidance.
-
-See the [AI tools guides](/ai-tools) for tool-specific setup.
-
-## Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
-
-```
 npm i -g mint
 ```
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
+Run the following command at the root of this repository, where `docs.json` is located:
 
-```
+```bash
 mint dev
 ```
 
 View your local preview at `http://localhost:3000`.
 
-## Publishing changes
+To check for broken links:
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+```bash
+mint broken-links
+```
 
-## Need help?
+## Contributing
 
-### Troubleshooting
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on editing pages, local development setup, and submitting pull requests.
 
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
+## Publishing
 
-### Resources
+Changes pushed to the default branch are deployed to production automatically via the Mintlify GitHub app.
+
+## Resources
+
+- [Sonicverse GitHub](https://github.com/sonicverse-eu)
+- [Sonicverse OSS Slack](https://join.slack.com/t/sonicverse-oss/shared_invite/zt-3u969i5rr-cmfgEycFAi8V7Baj0uBx0A)
 - [Mintlify documentation](https://mintlify.com/docs)
+
+## Troubleshooting
+
+- If your dev environment isn't running: run `mint update` to get the latest CLI version.
+- If a page loads as a 404: make sure you are running from the folder containing `docs.json`.
+
+## License
+
+This documentation repository is licensed under the [MIT License](LICENSE).
