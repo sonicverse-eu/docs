@@ -176,6 +176,39 @@ If you don't have Docker installed yet:
   </Tab>
 </Tabs>
 
+## Updating the stack
+
+When you run the installer on a server that already has the stack running, it detects the existing deployment and prompts you to update, reinstall, or cancel.
+
+```bash
+./install.sh
+```
+
+Choosing **Update** runs the following steps automatically:
+
+1. **Backup** — Tags the Docker image for every running service so it can be restored if the update fails.
+2. **Pull** — Fetches the latest code from the repository and pulls new container images from Docker Hub.
+3. **Rebuild** — Rebuilds any locally built images to pick up configuration changes.
+4. **Apply** — Starts the updated containers with zero downtime using `docker compose up -d --remove-orphans`.
+5. **Rollback** — If step 4 fails, the installer restores the backed-up images and restarts the previous version automatically.
+
+<Info>
+The update process keeps your `.env` file and data volumes intact. Only container images are changed.
+</Info>
+
+### Manual update
+
+If you prefer to update manually without the installer:
+
+```bash
+git pull origin main
+docker compose pull
+docker compose build
+docker compose up -d --remove-orphans
+```
+
+<Warning>Manual updates do not include automatic rollback. If something goes wrong, you will need to restore images or redeploy manually.</Warning>
+
 ## Next steps
 
 <Columns cols={2}>
