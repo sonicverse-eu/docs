@@ -17,13 +17,15 @@ description: Answers to common questions about system requirements, supported au
   </Accordion>
 
   <Accordion title="How do I update to the latest version?">
-    Pull the latest changes and rebuild:
+    Run the installer again from your project directory. It detects the existing stack and offers an in-place update:
 
     ```bash
-    git pull origin main
-    docker compose build
-    docker compose up -d
+    ./install.sh
     ```
+
+    The installer backs up your current container images, pulls the latest code and images, and applies the update with zero downtime. If the update fails, it automatically rolls back to the previously running images.
+
+    See [updating the stack](/audiostreaming-stack/quickstart#updating-the-stack) for details.
   </Accordion>
 
   <Accordion title="How do I add multiple streams?">
