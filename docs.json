@@ -143,5 +143,8 @@
   "favicon": "/images/Asset3.svg",
   "fonts": {
     "family": "Geist"
+  },
+  "styling": {
+    "eyebrows": "breadcrumbs"
   }
 }
