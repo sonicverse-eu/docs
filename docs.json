@@ -146,5 +146,10 @@
   },
   "styling": {
     "eyebrows": "breadcrumbs"
+  },
+  "thumbnails": {
+    "fonts": {
+      "family": "Geist"
+    }
   }
 }
