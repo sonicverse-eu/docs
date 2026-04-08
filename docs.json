@@ -142,6 +142,11 @@
   },
   "favicon": "/images/Asset3.svg",
   "fonts": {
-    "family": "Geist"
+    "family": "Geist",
+    "weight": 500
+  },
+  "banner": {
+    "content": "⚠ Critical security advisory: SSRF in dashboard API client. Details and remediation guidance:  [GHSA‑8vvj‑7f7r‑7v48 advisory](https://github.com/sonicverse-eu/audiostreaming-stack/security/advisories/GHSA-8vvj-7f7r-7v48)",
+    "dismissible": true
   }
 }
