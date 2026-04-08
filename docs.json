@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Sonicverse",
+  "name": "Sonicverse Docs",
   "colors": {
     "primary": "#432dd7",
     "light": "#432dd7",
