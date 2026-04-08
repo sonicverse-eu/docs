@@ -138,7 +138,8 @@
       "og:site_name": "Sonicverse Docs",
       "og:description": "Documentation for Sonicverse open-source software — self-hosted audio streaming, live radio infrastructure, and tools for independent media.",
       "og:locale": "en_US"
-    }
+    },
+    "indexing": "navigable"
   },
   "favicon": "/images/Asset3.svg",
   "fonts": {
