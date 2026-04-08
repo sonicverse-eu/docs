@@ -1,10 +1,11 @@
 ---
-title: Quickstart
-description: Install and run the audio streaming stack on your Linux server using the interactive installer or Docker Compose in under five minutes.
+title: "Quickstart"
+description: "Install and run the audio streaming stack on your Linux server using the interactive installer or Docker Compose in under five minutes."
 ---
 
 <Info>
   **Prerequisites:**
+
   - A Linux server (Ubuntu/Debian recommended)
   - [Docker](https://docs.docker.com/engine/install/) and Docker Compose installed
   - A domain name pointed at your server
@@ -15,7 +16,7 @@ description: Install and run the audio streaming stack on your Linux server usin
 
 We recommend deploying on [Hetzner Cloud](https://hetzner.cloud/?ref=FX3u0ARooaLR) — reliable, high-performance cloud servers at competitive prices, ideal for audio streaming infrastructure. Sign up using the link below to receive a **€20 promo code** valid for all Cloud products. It also helps us host our internal services and sandboxes.
 
-<Card title="Get started on Hetzner Cloud" icon="cloud" href="https://hetzner.cloud/?ref=FX3u0ARooaLR">
+<Card title="Get started on Hetzner Cloud" icon="cloud" href="https://hetzner.cloud/?ref=FX3u0ARooaLR" img="/images/hetzner-cloud.png">
   Sign up and receive €20 in free cloud credits.
 </Card>
 
@@ -72,11 +73,13 @@ Choose an installation mode based on your needs.
 Pre-built images are published to both Docker Hub (primary) and GitHub Container Registry (mirror). The default configuration pulls from Docker Hub.
 
 | Registry | Image prefix | Role |
-|---|---|---|
+| --- | --- | --- |
 | Docker Hub | `docker.io/sonicverse/audiostreaming-stack-*` | Primary (default) |
 | GHCR | `ghcr.io/sonicverse-eu/audiostreaming-stack/*` | Mirror |
 
-<Tip>If you previously pinned images to GHCR, they continue to work. No changes are required for existing deployments.</Tip>
+<Tip>
+  If you previously pinned images to GHCR, they continue to work. No changes are required for existing deployments.
+</Tip>
 
 ## Option C: Manual setup
 
@@ -90,7 +93,6 @@ Pre-built images are published to both Docker Hub (primary) and GitHub Container
 
     Edit `.env` with your values. See [configuration](/audiostreaming-stack/configuration) for all available variables.
   </Step>
-
   <Step title="Add emergency audio">
     Place a fallback audio file that plays when both studio streams are offline:
 
@@ -98,25 +100,25 @@ Pre-built images are published to both Docker Hub (primary) and GitHub Container
     cp /path/to/your/fallback.mp3 emergency-audio/fallback.mp3
     ```
   </Step>
-
   <Step title="Obtain SSL certificate">
     ```bash
     ./init-letsencrypt.sh
     ```
 
-    <Tip>Set `LETSENCRYPT_STAGING=1` in your `.env` to test with staging certificates first.</Tip>
+    <Tip>
+      Set `LETSENCRYPT_STAGING=1` in your `.env` to test with staging certificates first.
+    </Tip>
   </Step>
-
   <Step title="Start the stack">
     ```bash
     docker compose up -d
     ```
   </Step>
-
   <Step title="Connect your studio encoder">
     Configure [BUTT](https://danielnoethen.de/butt/) or any Icecast-compatible encoder:
 
     **Primary stream:**
+
     - Host: your server IP
     - Port: `8010`
     - Mount: `/primary`
@@ -124,6 +126,7 @@ Pre-built images are published to both Docker Hub (primary) and GitHub Container
     - Format: MP3 CBR 320 kbps
 
     **Fallback stream:**
+
     - Host: your server IP
     - Port: `8011`
     - Mount: `/secondary`
@@ -131,15 +134,15 @@ Pre-built images are published to both Docker Hub (primary) and GitHub Container
     - Format: MP3 CBR 192 kbps
 
     **Command-line encoder profiles (LAME):**
+
     ```bash
     # Primary (320 kbps)
     lame -r -s 44.1 -b 320 -x - -
-
+    
     # Fallback (192 kbps)
     lame -r -s 44.1 -b 192 -x - -
     ```
   </Step>
-
   <Step title="Verify">
     Check that everything is running:
 
@@ -160,7 +163,7 @@ If you already ran `./install.sh` without `--dev` and now want to add developmen
 This installs Node.js dependencies for the dashboard and Python dependencies for analytics and the status API. Available flags:
 
 | Flag | Description |
-|---|---|
+| --- | --- |
 | `--ci` | Deterministic installs using lockfiles |
 | `--python-user` | Install Python packages with `--user` |
 | `--skip-node` | Skip dashboard (JavaScript) dependencies |
@@ -201,7 +204,7 @@ Choosing **Update** runs the following steps automatically:
 5. **Rollback** — If step 4 fails, the installer restores the backed-up images and restarts the previous version automatically.
 
 <Info>
-The update process keeps your `.env` file and data volumes intact. Only container images are changed.
+  The update process keeps your `.env` file and data volumes intact. Only container images are changed.
 </Info>
 
 ### Manual update
@@ -215,7 +218,9 @@ docker compose build
 docker compose up -d --remove-orphans
 ```
 
-<Warning>Manual updates do not include automatic rollback. If something goes wrong, you will need to restore images or redeploy manually.</Warning>
+<Warning>
+  Manual updates do not include automatic rollback. If something goes wrong, you will need to restore images or redeploy manually.
+</Warning>
 
 ## Next steps
 
@@ -223,6 +228,7 @@ docker compose up -d --remove-orphans
   <Card title="Configuration" icon="gear" href="/audiostreaming-stack/configuration">
     Customize all environment variables for your station.
   </Card>
+
   <Card title="Stream endpoints" icon="headphones" href="/audiostreaming-stack/streams">
     See all available listener endpoints and formats.
   </Card>
