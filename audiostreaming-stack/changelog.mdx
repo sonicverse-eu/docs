@@ -3,6 +3,32 @@ title: Changelog
 description: Version history and release notes covering new features, bug fixes, breaking changes, and upgrade instructions for the audio streaming stack.
 ---
 
+<Update label="2026-04-08" description="v1.5.0" tags={["Release"]}>
+  ## Security fixes, Codacy integration, and code quality improvements
+
+  This release hardens the dashboard and Status API against network-level vulnerabilities, introduces Codacy for continuous code analysis, and addresses multiple code quality findings across the stack.
+
+  ### Security fixes
+
+  - **Dashboard API endpoint allowlist** — Dashboard API requests are now restricted to a typed list of approved endpoints, preventing server-side request forgery (SSRF) via free-form path manipulation.
+  - **Status API loopback binding** — The local Flask development entrypoint now binds to `127.0.0.1` instead of `0.0.0.0`, preventing unintended exposure on all network interfaces.
+
+  ### New features
+
+  - **Codacy coverage reporting** — A new GitHub Actions workflow discovers coverage reports and uploads them to Codacy on pull requests and pushes to `main`. Token setup and supported report locations are documented in the repository README.
+
+  ### Code quality
+
+  - Removed unused shell variables and cleaned up installer password generation paths.
+  - Fixed analytics lint and security findings, including webhook server binding annotations and Icecast URL handling.
+  - Improved dashboard accessibility with explicit button types, stable alert keys, and a decorative SVG fix.
+  - Pinned third-party GitHub Actions to full commit SHAs for supply-chain security.
+  - Removed obsolete CodeRabbit configuration in favor of Codacy.
+  - Updated contributor guidance for GitHub Issues and added AI PR reviewer instructions.
+
+  **Full changelog**: [v1.4.1...v1.5.0](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.4.1...v1.5.0)
+</Update>
+
 <Update label="2026-04-06" description="v1.4.1" tags={["Release"]}>
   ## CI fixes and ARM64 support
 
