@@ -1,0 +1,61 @@
+---
+title: Security advisories
+description: Published security advisories for the audio streaming stack, including severity, impact, and remediation steps.
+---
+
+This page lists published security advisories for the audio streaming stack. Each advisory describes a vulnerability, its severity, affected versions, and how to remediate it.
+
+For information on how to report a vulnerability, see the [security policy](/audiostreaming-stack/security).
+
+<Tip>
+  Subscribe to [GitHub security advisories](https://github.com/sonicverse-eu/audiostreaming-stack/security/advisories) to receive notifications when new advisories are published.
+</Tip>
+
+## GHSA-8vvj-7f7r-7v48 — SSRF in dashboard API client
+
+| Field | Details |
+|---|---|
+| **Severity** | Critical (CVSS 9.9) |
+| **CVSS vector** | `CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:L` |
+| **Weakness** | [CWE-918](https://cwe.mitre.org/data/definitions/918.html) — Server-Side Request Forgery |
+| **Published** | 2026-04-08 |
+| **Advisory** | [GHSA-8vvj-7f7r-7v48](https://github.com/sonicverse-eu/audiostreaming-stack/security/advisories/GHSA-8vvj-7f7r-7v48) |
+| **Package** | Sonicverse Audiostreaming Stack (`install.sh` deployments) |
+| **Affected versions** | Installations from commits before `cb1ddba` |
+| **Fixed in** | Commit [`cb1ddba`](https://github.com/sonicverse-eu/audiostreaming-stack/commit/cb1ddbacafcb441549fe87d3eeabdb6a085325e4) |
+
+### Impact
+
+The dashboard contains a **Server-Side Request Forgery (SSRF)** vulnerability in its API client (`apps/dashboard/lib/api.ts`). Installations created using the `install.sh` script are affected. An authenticated operator can make arbitrary HTTP requests from the dashboard backend to internal or external systems.
+
+Depending on your deployment, this can allow:
+
+- Access to internal services not exposed to the internet (for example, metadata APIs or admin panels)
+- Interaction with cloud instance metadata endpoints
+- Bypassing IP-based access controls and network segmentation
+
+<Danger>
+  This vulnerability is critical because it can be used to pivot from the dashboard into infrastructure that should not be reachable from outside.
+</Danger>
+
+### Patches
+
+The issue has been fixed by:
+
+- Validating and constraining destination URLs before they are used by the server-side HTTP client
+- Restricting requests to a strict allow-list of hosts and paths
+- Removing the ability for user input to control the full request URL
+
+Any installation made with `install.sh` from commits **before** [`cb1ddba`](https://github.com/sonicverse-eu/audiostreaming-stack/commit/cb1ddbacafcb441549fe87d3eeabdb6a085325e4) is affected. Installations made from commits **at or after** that commit include the fix.
+
+### Workarounds
+
+If you cannot immediately reinstall from a fixed commit:
+
+- Disable or restrict the feature that lets users submit or influence target URLs in the dashboard
+- Enforce strict firewall and network policies so the dashboard backend cannot reach internal networks or cloud metadata endpoints
+- Limit outbound traffic from the host running the stack to only the specific domains it must contact
+
+<Warning>
+  These mitigations reduce risk but do not fully resolve the underlying SSRF vulnerability. Reinstalling from a fixed commit via `install.sh` is strongly recommended.
+</Warning>
