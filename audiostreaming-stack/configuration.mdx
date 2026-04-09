@@ -70,6 +70,7 @@ The status panel uses [Appwrite](https://appwrite.io) for team-based authenticat
 
 | Variable | Description | Default |
 |---|---|---|
+| `STATUS_PANEL_HOST` | Network interface the Status API binds to. Set to `0.0.0.0` to listen on all interfaces. | `127.0.0.1` |
 | `STATUS_PANEL_CORS_ORIGIN` | Dashboard URL for CORS (include `https://`) | `https://status.example.com` |
 | `STATUS_PANEL_WRITE_ROLES` | Comma-separated Appwrite team roles allowed to write/modify via panel | `owner,admin` |
 | `STATUS_PANEL_ALLOW_RISKY_COMMANDS` | Allow dangerous commands like container restart in panel (`0` = deny, `1` = allow) | `0` |

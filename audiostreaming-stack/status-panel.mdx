@@ -38,6 +38,8 @@ The API backend runs as a Docker container in the stack and is proxied through N
 - Emergency audio file management (upload, list, delete)
 - Stack configuration details
 
+The API binds to `127.0.0.1` by default, so it is only reachable through the Nginx reverse proxy. If you need to expose the API directly (for example, during local development without Docker Compose), set `STATUS_PANEL_HOST=0.0.0.0` in your `.env` file. See [configuration](/audiostreaming-stack/configuration#status-panel) for details.
+
 ## Dashboard deployment
 
 The frontend is a Next.js application in the `apps/dashboard/` directory. It includes Sonicverse branding in the header and login form, and a footer with copyright, license, and documentation links.

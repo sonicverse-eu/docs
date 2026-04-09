@@ -39,9 +39,15 @@ You can expect an acknowledgment within **48 hours**. Critical issues receive a 
 
 All service containers (Status API, Nginx, Analytics, and Icecast) run as non-root users (UID 1000) by default. This limits the impact of a container escape by ensuring processes inside the container do not have root privileges on the host.
 
-## Automated code review
+## Advisories
 
-Pull requests targeting `main` are automatically reviewed by [CodeRabbit](https://coderabbit.ai). The configuration includes per-path review instructions for Python (Ruff), TypeScript (ESLint), Dockerfiles (hadolint), shell scripts, and CI workflows.
+| Advisory | Severity | Fixed in |
+|---|---|---|
+| [GHSA-8vvj-7f7r-7v48](https://github.com/sonicverse-eu/audiostreaming-stack/security/advisories/GHSA-8vvj-7f7r-7v48) — SSRF in dashboard API client | Critical | v1.5.0 |
+
+## Static analysis
+
+Pull requests targeting `main` are analysed by [Codacy](https://www.codacy.com) for code quality and security findings. Coverage reports are uploaded automatically after each CI run.
 
 ## Secret scanning
 

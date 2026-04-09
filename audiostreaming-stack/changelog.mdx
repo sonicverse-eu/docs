@@ -3,6 +3,29 @@ title: Changelog
 description: Version history and release notes covering new features, bug fixes, breaking changes, and upgrade instructions for the audio streaming stack.
 ---
 
+<Update label="2026-04-08" description="v1.5.0" tags={["Release", "Security"]}>
+  ## SSRF fix and Codacy static analysis
+
+  This release patches a server-side request forgery (SSRF) vulnerability in the dashboard API client and adds Codacy static analysis for contributors.
+
+  ### Security fixes
+
+  - **SSRF in dashboard API client** — The dashboard API client previously accepted arbitrary URL paths, allowing a crafted request to reach unintended internal services. API requests are now routed through typed helper functions that only allow known endpoints (`/api/status`, `/api/alerts`, `/api/containers`, `/api/config`, `/api/commands`, `/api/emergency-audio`, and their sub-routes). Cross-origin requests are explicitly blocked. See [GHSA-8vvj-7f7r-7v48](https://github.com/sonicverse-eu/audiostreaming-stack/security/advisories/GHSA-8vvj-7f7r-7v48) for details.
+  - **Status API binds to localhost** — The Status API development server now binds to `127.0.0.1` instead of `0.0.0.0` by default, preventing unintended network exposure. Use the new `STATUS_PANEL_HOST` environment variable to override this when needed. See [configuration](/audiostreaming-stack/configuration#status-panel) for details.
+
+  ### New features
+
+  - **Codacy static analysis** — Pull requests are now analysed by [Codacy](https://www.codacy.com) for code quality and security findings. A coverage reporting workflow uploads test results automatically. This replaces the previous CodeRabbit configuration.
+
+  ### Upgrade notes
+
+  <Warning>
+    If you run the Status API standalone (outside Docker Compose), it now binds to `127.0.0.1` by default. Set `STATUS_PANEL_HOST=0.0.0.0` in your `.env` file if you need to expose the API on all interfaces. Inside Docker Compose, Nginx proxies requests to the Status API container, so no change is needed.
+  </Warning>
+
+  **Full changelog**: [v1.4.1...v1.5.0](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.4.1...v1.5.0)
+</Update>
+
 <Update label="2026-04-06" description="v1.4.1" tags={["Release"]}>
   ## CI fixes and ARM64 support
 
