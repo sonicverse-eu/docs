@@ -3,6 +3,25 @@ title: Changelog
 description: Version history and release notes covering new features, bug fixes, breaking changes, and upgrade instructions for the audio streaming stack.
 ---
 
+<Update label="2026-04-08" description="v1.5.0" tags={["Release"]}>
+  ## Code quality tooling and security hardening
+
+  This release switches to Codacy for automated code review, hardens the dashboard and Status API against common web vulnerabilities, and improves analytics reliability.
+
+  ### New features
+
+  - **Codacy code analysis** — Pull requests are now reviewed by [Codacy](https://www.codacy.com) for code quality, replacing the previous CodeRabbit integration. Coverage reports are uploaded automatically on every CI run.
+
+  ### Bug fixes
+
+  - **Dashboard API request restrictions** — The operator dashboard now validates all outgoing API requests against a list of approved endpoints, preventing unintended requests to unknown URLs.
+  - **Status API binds to localhost** — The Status API development server now binds to `127.0.0.1` by default instead of all interfaces. Set the `STATUS_PANEL_HOST` environment variable to override this. See [configuration](/audiostreaming-stack/configuration) for details.
+  - **Improved dashboard authentication errors** — Authentication failures in the dashboard now surface clear error messages instead of silently failing.
+  - **More reliable analytics tracking** — The analytics service now handles different Icecast URL formats correctly, preventing connection failures when the `ICECAST_URL` environment variable omits the protocol scheme.
+
+  **Full changelog**: [v1.4.1...v1.5.0](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.4.1...v1.5.0)
+</Update>
+
 <Update label="2026-04-06" description="v1.4.1" tags={["Release"]}>
   ## CI fixes and ARM64 support
 
