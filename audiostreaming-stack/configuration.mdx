@@ -64,13 +64,16 @@ The status panel uses [Appwrite](https://appwrite.io) for team-based authenticat
 |---|---|---|
 | `APPWRITE_ENDPOINT` | Appwrite API endpoint | `https://cloud.appwrite.io/v1` |
 | `APPWRITE_PROJECT_ID` | Appwrite project ID | — |
-| `APPWRITE_TEAM_ID` | Appwrite team ID (only members get panel access) | — |
+| `APPWRITE_TEAM_ID` | Appwrite team ID (required when `APPWRITE_PROJECT_ID` is set; only members get panel access) | — |
+
+<Warning>`APPWRITE_TEAM_ID` is required whenever `APPWRITE_PROJECT_ID` is set. The installer enforces this and prompts you for the team ID if it is missing. Without a team ID, the status panel will not authenticate any users.</Warning>
 
 ## Status panel
 
 | Variable | Description | Default |
 |---|---|---|
 | `STATUS_PANEL_CORS_ORIGIN` | Dashboard URL for CORS (include `https://`) | `https://status.example.com` |
+| `STATUS_PANEL_HOST` | Bind host for the status API server. Auto-detects the container IP inside Docker when unset. | `127.0.0.1` |
 | `STATUS_PANEL_WRITE_ROLES` | Comma-separated Appwrite team roles allowed to write/modify via panel | `owner,admin` |
 | `STATUS_PANEL_ALLOW_RISKY_COMMANDS` | Allow dangerous commands like container restart in panel (`0` = deny, `1` = allow) | `0` |
 

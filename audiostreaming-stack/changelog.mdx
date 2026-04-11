@@ -3,6 +3,28 @@ title: Changelog
 description: Version history and release notes covering new features, bug fixes, breaking changes, and upgrade instructions for the audio streaming stack.
 ---
 
+<Update label="2026-04-10" description="Security hardening" tags={["Security"]}>
+  ## Operator endpoint hardening and authentication improvements
+
+  This update strengthens network security for operator-facing endpoints, tightens Appwrite authentication defaults, and improves status API host binding for containerized deployments.
+
+  ### Breaking changes
+
+  - **`APPWRITE_TEAM_ID` is now required** when `APPWRITE_PROJECT_ID` is set. The installer enforces this during setup. If you have an existing deployment with `APPWRITE_PROJECT_ID` but no `APPWRITE_TEAM_ID`, add the team ID to your `.env` file before upgrading.
+
+  ### Security improvements
+
+  - **HTTPS enforcement for operator endpoints** — HTTP requests to `/api/` and `/icecast-admin/` are now redirected to HTTPS with a `308 Permanent Redirect`. Public media endpoints (`/hls/`, `/listen/`) remain available on HTTP for player compatibility.
+  - **Alert ingestion restricted to internal networks** — The `/api/alert` endpoint is now restricted at the Nginx level to private and loopback IP addresses only. External requests receive a `403 Forbidden` response.
+  - **Safer status API bind host** — The status API no longer binds to all interfaces (`0.0.0.0`). It defaults to `127.0.0.1` and auto-detects the container IP when running inside Docker. You can override this with the `STATUS_PANEL_HOST` environment variable.
+  - **Dashboard CVE fix** — Updated Next.js to 16.2.3 to address CVE-2026-23869.
+
+  ### Updates
+
+  - Replaced Codacy CI workflows with SonarQube Cloud automatic analysis.
+  - Fixed shell test syntax in installer scripts for improved portability.
+</Update>
+
 <Update label="2026-04-08" description="v1.5.0" tags={["Release"]}>
   ## Security fixes, Codacy integration, and code quality improvements
 
