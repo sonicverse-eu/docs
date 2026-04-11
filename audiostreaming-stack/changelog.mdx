@@ -23,6 +23,23 @@ description: Version history and release notes covering new features, bug fixes,
 
   - Replaced Codacy CI workflows with SonarQube Cloud automatic analysis.
   - Fixed shell test syntax in installer scripts for improved portability.
+<Update label="2026-04-10" description="v1.5.1" tags={["Security"]}>
+  ## Security hardening and installer reliability
+
+  This update strengthens the Status API, patches a dashboard vulnerability, and improves installer compatibility.
+
+  ### Security fixes
+
+  - **Status API no longer binds to all network interfaces** — The Status API now auto-detects a safe bind address instead of listening on `0.0.0.0`. You can override this with the `STATUS_PANEL_BIND_HOST` environment variable. See [configuration](/audiostreaming-stack/configuration) for details.
+  - **HTTPS enforced for sensitive endpoints** — The reverse proxy now redirects sensitive dashboard and API routes to HTTPS, preventing credentials from being transmitted in plain text.
+  - **Restricted alert ingestion** — Internal alert endpoints are now gated behind proxy-level controls, reducing the risk of unauthorized access.
+  - **Appwrite team scoping required by default** — Operator dashboard authentication now requires an Appwrite team ID, ensuring only team members can access the panel.
+  - **Path traversal protection** — Emergency audio file deletion now validates file paths to prevent directory traversal attacks.
+  - **Dashboard dependency update** — Patched a security vulnerability (CVE-2026-23869) in the dashboard framework.
+
+  ### Bug fixes
+
+  - **Improved installer compatibility** — The installer scripts now use portable shell syntax, fixing potential failures on systems with strict POSIX shells.
 </Update>
 
 <Update label="2026-04-08" description="v1.5.0" tags={["Release"]}>
