@@ -38,6 +38,14 @@ The API backend runs as a Docker container in the stack and is proxied through N
 - Emergency audio file management (upload, list, delete)
 - Stack configuration details
 
+### HTTPS enforcement
+
+Operator endpoints (`/api/` and `/icecast-admin/`) require HTTPS. HTTP requests to these paths are automatically redirected with a `308 Permanent Redirect`. Public media endpoints (`/hls/`, `/listen/`) remain available on HTTP for player compatibility.
+
+### Alert ingestion
+
+The `/api/alert` endpoint accepts alerts from the analytics service and Liquidsoap. This endpoint is restricted at the Nginx level to private and loopback IP addresses only (Docker bridge networks, `127.0.0.1`, `::1`). External requests receive a `403 Forbidden` response. No configuration is needed — the restriction applies automatically.
+
 ## Dashboard deployment
 
 The frontend is a Next.js application in the `apps/dashboard/` directory. It includes Sonicverse branding in the header and login form, and a footer with copyright, license, and documentation links.
@@ -65,7 +73,7 @@ The frontend is a Next.js application in the `apps/dashboard/` directory. It inc
 
 ## Authentication
 
-The status panel uses Appwrite team-based authentication. Only members of the configured Appwrite team can access the dashboard.
+The status panel uses Appwrite team-based authentication. Only members of the configured Appwrite team can access the dashboard. `APPWRITE_TEAM_ID` is required whenever `APPWRITE_PROJECT_ID` is set — the panel will not authenticate users without it.
 
 Write operations (managing emergency audio, restarting services) require a role listed in `STATUS_PANEL_WRITE_ROLES`. This defaults to `owner,admin`.
 
@@ -73,7 +81,8 @@ Write operations (managing emergency audio, restarting services) require a role 
 |---|---|---|
 | `APPWRITE_ENDPOINT` | Appwrite API endpoint | `https://cloud.appwrite.io/v1` |
 | `APPWRITE_PROJECT_ID` | Appwrite project ID | — |
-| `APPWRITE_TEAM_ID` | Team ID — only members get access | — |
+| `APPWRITE_TEAM_ID` | Team ID (required when `APPWRITE_PROJECT_ID` is set) — only members get access | — |
+| `STATUS_PANEL_HOST` | Bind host for the API server (auto-detects container IP in Docker) | `127.0.0.1` |
 | `STATUS_PANEL_WRITE_ROLES` | Roles allowed to manage emergency audio | `owner,admin` |
 
 ## Remote commands
