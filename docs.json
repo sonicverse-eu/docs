@@ -24,8 +24,7 @@
             "group": "Configuration",
             "pages": [
               "audiostreaming-stack/configuration",
-              "audiostreaming-stack/streams",
-              "audiostreaming-stack/firewall"
+              "audiostreaming-stack/streams"
             ]
           },
           {
@@ -37,12 +36,18 @@
             ]
           },
           {
+            "group": "Security",
+            "pages": [
+              "audiostreaming-stack/security",
+              "audiostreaming-stack/security-advisories",
+              "audiostreaming-stack/firewall"
+            ]
+          },
+          {
             "group": "Community",
             "pages": [
               "audiostreaming-stack/contributing",
-              "audiostreaming-stack/code-of-conduct",
-              "audiostreaming-stack/security",
-              "audiostreaming-stack/security-advisories"
+              "audiostreaming-stack/code-of-conduct"
             ]
           },
           {
@@ -71,6 +76,12 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "Security",
+        "pages": [
+          "security"
+        ]
       }
     ],
     "global": {
@@ -85,6 +96,10 @@
   },
   "navbar": {
     "links": [
+      {
+        "label": "Security",
+        "href": "/security"
+      },
       {
         "type": "github",
         "href": "https://github.com/sonicverse-eu"
@@ -121,7 +136,7 @@
           },
           {
             "label": "Security",
-            "href": "/audiostreaming-stack/security"
+            "href": "/security"
           }
         ]
       },
