@@ -60,6 +60,17 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "Website",
+        "groups": [
+          {
+            "group": "Updates",
+            "pages": [
+              "website/changelog"
+            ]
+          }
+        ]
       }
     ],
     "global": {
