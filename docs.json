@@ -38,7 +38,6 @@
           {
             "group": "Security",
             "pages": [
-              "audiostreaming-stack/security-hub",
               "audiostreaming-stack/security",
               "audiostreaming-stack/security-advisories",
               "audiostreaming-stack/firewall"
@@ -77,6 +76,12 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "Security",
+        "pages": [
+          "security"
+        ]
       }
     ],
     "global": {
@@ -91,6 +96,10 @@
   },
   "navbar": {
     "links": [
+      {
+        "label": "Security",
+        "href": "/security"
+      },
       {
         "type": "github",
         "href": "https://github.com/sonicverse-eu"
@@ -127,7 +136,7 @@
           },
           {
             "label": "Security",
-            "href": "/audiostreaming-stack/security-hub"
+            "href": "/security"
           }
         ]
       },

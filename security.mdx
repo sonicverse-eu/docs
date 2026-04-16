@@ -1,0 +1,140 @@
+---
+title: Security
+description: Central security hub for all Sonicverse projects — vulnerability reporting, security practices, hardening guides, advisories, and tooling.
+---
+
+Security practices, policies, and resources across all Sonicverse open-source projects.
+
+## Report a vulnerability
+
+If you've found a security issue in any Sonicverse project, report it privately. **Do not open a public GitHub issue.**
+
+<CardGroup cols={3}>
+  <Card title="Web form" icon="browser" href="https://sonicverse.eu/security">
+    Submit through the Sonicverse security page.
+  </Card>
+  <Card title="Email" icon="envelope" href="mailto:security@sonicverse.eu">
+    Send details to security@sonicverse.eu.
+  </Card>
+  <Card title="GitHub" icon="github" href="https://github.com/sonicverse-eu/audiostreaming-stack/security/advisories/new">
+    Use GitHub private vulnerability reporting.
+  </Card>
+</CardGroup>
+
+Expect acknowledgment within **3 business days** and triage within **7 days**. Critical issues receive a patch within **14 days**.
+
+Include the following in your report:
+
+- Description of the vulnerability
+- Steps to reproduce
+- Potential impact
+- Affected project, version, or commit (if known)
+- Any suggested fix or mitigation
+
+## Project security resources
+
+<Columns cols={2}>
+  <Card title="Audio Streaming Stack — security policy" icon="shield-check" href="/audiostreaming-stack/security">
+    Vulnerability scope, container hardening, automated code review, and secret scanning for the streaming stack.
+  </Card>
+  <Card title="Audio Streaming Stack — advisories" icon="triangle-exclamation" href="/audiostreaming-stack/security-advisories">
+    Published CVEs and advisories with severity ratings, affected versions, and remediation steps.
+  </Card>
+  <Card title="Firewall configuration" icon="firewall" href="/audiostreaming-stack/firewall">
+    Required ports, automated UFW setup, and studio IP restriction for the streaming stack.
+  </Card>
+  <Card title="Configuration reference" icon="gear" href="/audiostreaming-stack/configuration">
+    Environment variables for SSL, authentication, CORS, and access controls.
+  </Card>
+</Columns>
+
+## Organization-wide security practices
+
+### Responsible disclosure
+
+All Sonicverse repositories follow coordinated disclosure. Reporters receive acknowledgment within 3 business days and triage within 7 days. Critical vulnerabilities are patched within 14 days. Advisories are published on GitHub after a fix is available.
+
+### Container hardening
+
+All Docker-based Sonicverse projects run service containers as **non-root users** (UID 1000) by default. This limits the blast radius of a container escape by ensuring processes do not have root privileges on the host.
+
+### SSL/TLS encryption
+
+Sonicverse projects that expose public endpoints use [Let's Encrypt](https://letsencrypt.org) certificates with automatic provisioning and renewal. All public traffic is served over HTTPS.
+
+### Network isolation
+
+Public-facing services are limited to reverse proxies (Nginx). Internal components communicate over private Docker networks and are not directly accessible from the internet.
+
+```text
+Internet ──► Nginx (:80/:443)
+                ├──► Internal services (private network)
+                └──► Static assets (private network)
+```
+
+## Authentication and access control
+
+### Team-based authentication
+
+Sonicverse projects use [Appwrite](https://appwrite.io) for team-based authentication where applicable. Only members of your configured team can access protected interfaces.
+
+### Role-based access
+
+Write operations are restricted to specific team roles (default: `owner,admin`). Read-only access is available to all authenticated team members.
+
+### CORS policies
+
+Cross-origin requests are restricted to explicitly configured origins. Set the appropriate CORS variable for each project to match your deployment domain.
+
+## Automated security tooling
+
+### Code review
+
+Pull requests targeting `main` across Sonicverse repositories are automatically reviewed by [CodeRabbit](https://coderabbit.ai), with per-path review instructions for Python, TypeScript, Dockerfiles, shell scripts, and CI workflows.
+
+### Secret scanning
+
+Sonicverse repositories use [TruffleHog](https://trufflesecurity.com/open-source/trufflehog) to detect accidentally committed secrets. Run it locally against any Sonicverse project:
+
+```bash
+# Full git history scan
+trufflehog git file://. --config trufflehog.toml
+
+# Working tree only (faster, good for pre-commit)
+trufflehog filesystem . --config trufflehog.toml
+```
+
+### Auto-generated secrets
+
+Installers auto-generate secure passwords and tokens during setup. You never need to create service credentials manually.
+
+## Security checklist
+
+Use this checklist when deploying any Sonicverse project to production:
+
+<Steps>
+  <Step title="Run the firewall script">
+    Lock down ports to only those required by the project. Restrict management ports to trusted IPs where possible.
+  </Step>
+  <Step title="Enable production SSL">
+    Switch from staging to production Let's Encrypt certificates.
+  </Step>
+  <Step title="Configure authentication">
+    Set up team-based authentication and restrict access to your team.
+  </Step>
+  <Step title="Restrict write roles">
+    Limit write operations to `owner` and `admin` roles only.
+  </Step>
+  <Step title="Set CORS origins">
+    Configure CORS to allow only your deployment domain.
+  </Step>
+  <Step title="Disable risky features">
+    Keep remote management commands disabled unless you have a specific need and a trusted network.
+  </Step>
+  <Step title="Run a secret scan">
+    Run TruffleHog before pushing to verify no secrets are committed.
+  </Step>
+  <Step title="Subscribe to advisories">
+    Watch GitHub security advisories for each Sonicverse project you deploy.
+  </Step>
+</Steps>
