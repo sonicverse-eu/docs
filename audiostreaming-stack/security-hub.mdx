@@ -1,0 +1,176 @@
+---
+title: Security hub
+description: Central overview of security practices, hardening guides, vulnerability reporting, and published advisories for the audio streaming stack.
+---
+
+Everything you need to secure your audio streaming deployment — from initial server hardening to ongoing vulnerability management.
+
+## Report a vulnerability
+
+If you've found a security issue, report it privately. **Do not open a public GitHub issue.**
+
+<CardGroup cols={3}>
+  <Card title="Web form" icon="browser" href="https://sonicverse.eu/security">
+    Submit through the Sonicverse security page.
+  </Card>
+  <Card title="Email" icon="envelope" href="mailto:security@sonicverse.eu">
+    Send details to security@sonicverse.eu.
+  </Card>
+  <Card title="GitHub" icon="github" href="https://github.com/sonicverse-eu/audiostreaming-stack/security/advisories/new">
+    Use GitHub private vulnerability reporting.
+  </Card>
+</CardGroup>
+
+Expect acknowledgment within **3 business days** and triage within **7 days**. Critical issues receive a patch within **14 days**. See the full [security policy](/audiostreaming-stack/security) for scope and details.
+
+## Security overview
+
+<Columns cols={2}>
+  <Card title="Security policy" icon="shield-check" href="/audiostreaming-stack/security">
+    Vulnerability reporting process, scope, container hardening, automated code review, and secret scanning.
+  </Card>
+  <Card title="Security advisories" icon="triangle-exclamation" href="/audiostreaming-stack/security-advisories">
+    Published CVEs and advisories with severity ratings, affected versions, and remediation steps.
+  </Card>
+  <Card title="Firewall configuration" icon="firewall" href="/audiostreaming-stack/firewall">
+    Required ports, automated UFW setup, and studio IP restriction.
+  </Card>
+  <Card title="Configuration reference" icon="gear" href="/audiostreaming-stack/configuration">
+    Environment variables for SSL, authentication, CORS, and access controls.
+  </Card>
+</Columns>
+
+## Infrastructure hardening
+
+### Container security
+
+All service containers run as **non-root users** (UID 1000) by default. This limits the blast radius of a container escape by ensuring processes do not have root privileges on the host.
+
+### SSL/TLS encryption
+
+The stack uses [Let's Encrypt](https://letsencrypt.org) certificates managed by Certbot for automatic provisioning and renewal. Nginx terminates SSL and serves all public traffic over HTTPS on port 443.
+
+Configure SSL in your `.env` file:
+
+| Variable | Description | Default |
+|---|---|---|
+| `LETSENCRYPT_EMAIL` | Email for Let's Encrypt notifications | `admin@example.com` |
+| `LETSENCRYPT_STAGING` | Set to `1` for test certificates during setup | `0` |
+
+<Tip>Use staging certificates while testing to avoid hitting Let's Encrypt rate limits. Switch to `0` for production once everything works.</Tip>
+
+### Firewall
+
+The stack requires only four ports. Lock down everything else with the included UFW script:
+
+```bash
+# Basic setup — opens ports 80, 443, 8010, 8011
+sudo ./setup-firewall.sh
+
+# Restrict studio ports to a specific IP
+sudo ./setup-firewall.sh --studio-ip 203.0.113.50
+```
+
+See the full [firewall guide](/audiostreaming-stack/firewall) for details.
+
+### Network architecture
+
+Nginx is the only public-facing component. All internal services (Liquidsoap, Icecast, Status API, Analytics) communicate over a private Docker network and are not directly accessible from the internet.
+
+```text
+Internet ──► Nginx (:80/:443)
+                ├──► Icecast2 (internal)
+                ├──► Status API (internal)
+                └──► HLS segments (internal)
+```
+
+## Authentication and access control
+
+### Appwrite team authentication
+
+The status panel uses [Appwrite](https://appwrite.io) for team-based authentication. Only members of your configured Appwrite team can access the panel.
+
+| Variable | Description |
+|---|---|
+| `APPWRITE_PROJECT_ID` | Your Appwrite project ID |
+| `APPWRITE_TEAM_ID` | Appwrite team ID — only members get panel access |
+
+<Warning>`APPWRITE_TEAM_ID` is required whenever `APPWRITE_PROJECT_ID` is set. Without it, the panel will not authenticate any users.</Warning>
+
+### Role-based write access
+
+The `STATUS_PANEL_WRITE_ROLES` variable controls which Appwrite team roles can perform write operations (default: `owner,admin`). Read-only access is available to all authenticated team members.
+
+### CORS policy
+
+Set `STATUS_PANEL_CORS_ORIGIN` to your dashboard URL (including `https://`) to restrict cross-origin requests to your domain only.
+
+### Risky commands
+
+Remote container restart and SSL renewal are disabled by default. Enable only if you understand the implications:
+
+| Variable | Description | Default |
+|---|---|---|
+| `STATUS_PANEL_ALLOW_RISKY_COMMANDS` | Allow dangerous commands in panel | `0` (disabled) |
+
+<Danger>Enabling risky commands allows the dashboard to restart Docker containers and trigger SSL renewal remotely. Only enable this on trusted networks with restricted access.</Danger>
+
+## Automated security tooling
+
+### Code review
+
+Pull requests targeting `main` are automatically reviewed by [CodeRabbit](https://coderabbit.ai), with per-path review instructions for Python, TypeScript, Dockerfiles, shell scripts, and CI workflows.
+
+### Secret scanning
+
+The repository uses [TruffleHog](https://trufflesecurity.com/open-source/trufflehog) to detect accidentally committed secrets. Run it locally:
+
+```bash
+# Full git history scan
+trufflehog git file://. --config trufflehog.toml
+
+# Working tree only (faster, good for pre-commit)
+trufflehog filesystem . --config trufflehog.toml
+```
+
+See the [security policy](/audiostreaming-stack/security#secret-scanning) for CI integration instructions.
+
+### Auto-generated passwords
+
+The installer (`install.sh`) auto-generates secure passwords for:
+
+- Icecast source, relay, and admin connections
+- Liquidsoap harbor authentication
+
+You never need to create these passwords manually.
+
+## Security checklist
+
+Use this checklist when deploying to production:
+
+<Steps>
+  <Step title="Run the firewall script">
+    Execute `sudo ./setup-firewall.sh` to lock down ports. Restrict studio ports to your studio IP if possible.
+  </Step>
+  <Step title="Switch to production SSL">
+    Set `LETSENCRYPT_STAGING=0` in your `.env` file to use real certificates.
+  </Step>
+  <Step title="Configure Appwrite authentication">
+    Set `APPWRITE_PROJECT_ID` and `APPWRITE_TEAM_ID` to restrict panel access to your team.
+  </Step>
+  <Step title="Restrict write roles">
+    Set `STATUS_PANEL_WRITE_ROLES` to limit who can perform write operations (default: `owner,admin`).
+  </Step>
+  <Step title="Set CORS origin">
+    Configure `STATUS_PANEL_CORS_ORIGIN` to your exact dashboard URL.
+  </Step>
+  <Step title="Keep risky commands disabled">
+    Leave `STATUS_PANEL_ALLOW_RISKY_COMMANDS=0` unless you have a specific need.
+  </Step>
+  <Step title="Run a secret scan">
+    Run TruffleHog against your repository before pushing to verify no secrets are committed.
+  </Step>
+  <Step title="Subscribe to advisories">
+    Watch [GitHub security advisories](https://github.com/sonicverse-eu/audiostreaming-stack/security/advisories) for vulnerability notifications.
+  </Step>
+</Steps>

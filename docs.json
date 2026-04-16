@@ -24,8 +24,7 @@
             "group": "Configuration",
             "pages": [
               "audiostreaming-stack/configuration",
-              "audiostreaming-stack/streams",
-              "audiostreaming-stack/firewall"
+              "audiostreaming-stack/streams"
             ]
           },
           {
@@ -37,12 +36,19 @@
             ]
           },
           {
+            "group": "Security",
+            "pages": [
+              "audiostreaming-stack/security-hub",
+              "audiostreaming-stack/security",
+              "audiostreaming-stack/security-advisories",
+              "audiostreaming-stack/firewall"
+            ]
+          },
+          {
             "group": "Community",
             "pages": [
               "audiostreaming-stack/contributing",
-              "audiostreaming-stack/code-of-conduct",
-              "audiostreaming-stack/security",
-              "audiostreaming-stack/security-advisories"
+              "audiostreaming-stack/code-of-conduct"
             ]
           },
           {
@@ -121,7 +127,7 @@
           },
           {
             "label": "Security",
-            "href": "/audiostreaming-stack/security"
+            "href": "/audiostreaming-stack/security-hub"
           }
         ]
       },
