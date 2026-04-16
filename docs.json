@@ -157,8 +157,5 @@
   "fonts": {
     "family": "Geist",
     "weight": 500
-  },
-  "banner": {
-    "dismissible": false
   }
 }
