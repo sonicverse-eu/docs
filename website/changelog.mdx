@@ -3,6 +3,20 @@ title: Changelog and release notes
 description: Version history for the Sonicverse website covering new features, improvements, and bug fixes.
 ---
 
+<Update label="2026-04-17" description="Security hardening and navigation updates" tags={["Security", "Update"]}>
+  ## Security hardening and navigation updates
+
+  ### Updates
+
+  - **Documentation link in header** — The site header and mobile menu now link directly to the [documentation](https://docs.sonicverse.eu) for quicker access to guides and references.
+  - **Contact page in navigation** — The main navigation now includes a direct link to the contact page, making it easier to get in touch.
+
+  ### Security fixes
+
+  - **Contact form XSS protection** — All contact and confirmation email templates now sanitize user input, preventing cross-site scripting (XSS) via form submissions.
+  - **Security headers** — The site now sends a strict Content Security Policy, HSTS, X-Frame-Options, Referrer-Policy, and Permissions-Policy headers on every response, reducing the risk of common web attacks.
+</Update>
+
 <Update label="2026-04-14" description="Security reporting, contact form improvements, and visual refresh" tags={["Feature", "Update"]}>
   ## Security reporting page, contact form improvements, and visual refresh
 
