@@ -56,28 +56,31 @@ The installer (`./install.sh`) auto-generates secure passwords for Icecast and h
 | `PUSHOVER_USER_KEY` | Pushover user key for notifications (leave empty to disable) | — |
 | `PUSHOVER_APP_TOKEN` | Pushover application token (leave empty to disable) | — |
 
-## Appwrite authentication
-
-The status panel uses [Appwrite](https://appwrite.io) for team-based authentication. These variables are optional — only required if you want to use the interactive status panel.
-
-| Variable | Description | Default |
-|---|---|---|
-| `APPWRITE_ENDPOINT` | Appwrite API endpoint | `https://cloud.appwrite.io/v1` |
-| `APPWRITE_PROJECT_ID` | Appwrite project ID | — |
-| `APPWRITE_TEAM_ID` | Appwrite team ID (required when `APPWRITE_PROJECT_ID` is set; only members get panel access) | — |
-
-<Warning>`APPWRITE_TEAM_ID` is required whenever `APPWRITE_PROJECT_ID` is set. The installer enforces this and prompts you for the team ID if it is missing. Without a team ID, the status panel will not authenticate any users.</Warning>
-
 ## Status panel
 
+The status panel is disabled by default. Set `ENABLE_STATUS_PANEL=1` to run the status API service and expose `/api/` routes through nginx. See the [status panel guide](/audiostreaming-stack/status-panel) for setup instructions.
+
 | Variable | Description | Default |
 |---|---|---|
-| `STATUS_PANEL_CORS_ORIGIN` | Dashboard URL for CORS (include `https://`) | `https://status.example.com` |
+| `ENABLE_STATUS_PANEL` | Set to `1` to run the status API and expose `/api/` through nginx | `0` |
+| `STATUS_PANEL_CORS_ORIGIN` | Dashboard URL(s) for CORS, comma-separated | — |
 | `STATUS_PANEL_HOST` | Bind host for the status API server. Auto-detects the container IP inside Docker when unset. | `127.0.0.1` |
 | `STATUS_PANEL_WRITE_ROLES` | Comma-separated Appwrite team roles allowed to write/modify via panel | `owner,admin` |
 | `STATUS_PANEL_ALLOW_RISKY_COMMANDS` | Allow dangerous commands like container restart in panel (`0` = deny, `1` = allow) | `0` |
 
 <Warning>Only enable `STATUS_PANEL_ALLOW_RISKY_COMMANDS` if you understand the security implications. This allows the dashboard to restart Docker containers and trigger SSL renewal remotely.</Warning>
+
+## Appwrite authentication
+
+The status panel uses [Appwrite](https://appwrite.io) for team-based authentication. These variables are only required when the status panel is enabled and you want authenticated access.
+
+| Variable | Description | Default |
+|---|---|---|
+| `APPWRITE_ENDPOINT` | Appwrite API endpoint (recommended: `https://cloud.appwrite.io/v1`) | — |
+| `APPWRITE_PROJECT_ID` | Appwrite project ID | — |
+| `APPWRITE_TEAM_ID` | Appwrite team ID (required when `APPWRITE_PROJECT_ID` is set; only members get panel access) | — |
+
+<Warning>`APPWRITE_TEAM_ID` is required whenever `APPWRITE_PROJECT_ID` is set. The installer enforces this and prompts you for the team ID if it is missing. Without a team ID, the status panel will not authenticate any users.</Warning>
 
 ## PostHog analytics
 
