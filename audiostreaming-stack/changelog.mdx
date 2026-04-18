@@ -4,21 +4,21 @@ description: Version history for the audio streaming stack covering new features
 ---
 
 <Update label="2026-04-17" description="v1.5.2" tags={["Release"]}>
-  ## Optional status panel and SSL provisioning improvements
+  ## Optional status panel and installer reliability
 
-  The status panel is now opt-in, and first-time SSL certificate provisioning is more reliable.
+  The status dashboard is now fully optional. A new `ENABLE_STATUS_PANEL` environment variable controls whether the status API runs, making minimal deployments simpler and reducing resource usage when you don't need the operator dashboard.
 
-  ### Breaking changes
+  ### New features
 
-  - **Status panel is now opt-in** — The status API service no longer starts by default. Set `ENABLE_STATUS_PANEL=1` in your `.env` file to enable it. Existing deployments that use the status panel must add this variable before upgrading. When disabled, nginx removes all `/api/` proxy routes automatically. See [status panel](/audiostreaming-stack/status-panel) for details.
-  - **`APPWRITE_ENDPOINT` no longer has a default value** — Previously defaulted to `https://cloud.appwrite.io/v1`. You now need to set it explicitly when using Appwrite authentication.
+  - **Optional status panel** — The status API and its nginx routes are now disabled by default. Set `ENABLE_STATUS_PANEL=1` in your `.env` file to enable it. The installer prompts you during setup. See [configuration](/audiostreaming-stack/configuration) for details.
 
-  ### Improvements
+  ### Bug fixes
 
-  - **Safer SSL certificate provisioning** — The `init-letsencrypt.sh` script now uses a dedicated temporary nginx container for the ACME HTTP challenge when the main stack is not running, avoiding name collisions with the production nginx container. If the main nginx is already running, it reuses it instead.
-  - **Improved nginx permissions** — The nginx container now correctly sets ownership on all required directories at build time, preventing startup failures when running as a non-root user.
-  - **Docker Compose profile support** — The status API service uses the `status-panel` Docker Compose profile. The installer automatically includes the correct profile flag based on your configuration.
-  - **Installer status panel prompt** — The interactive installer now asks whether you want to enable the status dashboard and only prompts for Appwrite credentials when you opt in.
+  - **Fixed nginx startup on non-root containers** — Resolved permission errors that could prevent nginx from starting by moving temporary file paths to writable locations.
+  - **Fixed Let's Encrypt certificate name collisions** — Certificate issuance now uses a dedicated bootstrap nginx configuration, preventing container name conflicts when requesting new certificates.
+  - **Improved installer container handling** — The installer now detects and removes conflicting container names before starting services, preventing failures during updates.
+
+  **Full changelog**: [v1.5.1...v1.5.2](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.5.1...v1.5.2)
 </Update>
 
 <Update label="2026-04-10" description="v1.5.1" tags={["Security"]}>
