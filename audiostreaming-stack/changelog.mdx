@@ -3,6 +3,24 @@ title: Audio streaming stack changelog and releases
 description: Version history for the audio streaming stack covering new features, security patches, bug fixes, breaking changes, and step-by-step upgrade instructions.
 ---
 
+<Update label="2026-04-17" description="v1.5.2" tags={["Release"]}>
+  ## Optional status panel and installer reliability
+
+  The status dashboard is now fully optional. A new `ENABLE_STATUS_PANEL` environment variable controls whether the status API runs, making minimal deployments simpler and reducing resource usage when you don't need the operator dashboard.
+
+  ### New features
+
+  - **Optional status panel** — The status API and its nginx routes are now disabled by default. Set `ENABLE_STATUS_PANEL=1` in your `.env` file to enable it. The installer prompts you during setup. See [configuration](/audiostreaming-stack/configuration) for details.
+
+  ### Bug fixes
+
+  - **Fixed nginx startup on non-root containers** — Resolved permission errors that could prevent nginx from starting by moving temporary file paths to writable locations.
+  - **Fixed Let's Encrypt certificate name collisions** — Certificate issuance now uses a dedicated bootstrap nginx configuration, preventing container name conflicts when requesting new certificates.
+  - **Improved installer container handling** — The installer now detects and removes conflicting container names before starting services, preventing failures during updates.
+
+  **Full changelog**: [v1.5.1...v1.5.2](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.5.1...v1.5.2)
+</Update>
+
 <Update label="2026-04-10" description="v1.5.1" tags={["Security"]}>
   ## Security hardening and installer reliability
 
