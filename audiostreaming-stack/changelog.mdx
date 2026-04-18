@@ -3,6 +3,24 @@ title: Audio streaming stack changelog and releases
 description: Version history for the audio streaming stack covering new features, security patches, bug fixes, breaking changes, and step-by-step upgrade instructions.
 ---
 
+<Update label="2026-04-17" description="v1.5.2" tags={["Release"]}>
+  ## Optional status panel and SSL provisioning improvements
+
+  The status panel is now opt-in, and first-time SSL certificate provisioning is more reliable.
+
+  ### Breaking changes
+
+  - **Status panel is now opt-in** — The status API service no longer starts by default. Set `ENABLE_STATUS_PANEL=1` in your `.env` file to enable it. Existing deployments that use the status panel must add this variable before upgrading. When disabled, nginx removes all `/api/` proxy routes automatically. See [status panel](/audiostreaming-stack/status-panel) for details.
+  - **`APPWRITE_ENDPOINT` no longer has a default value** — Previously defaulted to `https://cloud.appwrite.io/v1`. You now need to set it explicitly when using Appwrite authentication.
+
+  ### Improvements
+
+  - **Safer SSL certificate provisioning** — The `init-letsencrypt.sh` script now uses a dedicated temporary nginx container for the ACME HTTP challenge when the main stack is not running, avoiding name collisions with the production nginx container. If the main nginx is already running, it reuses it instead.
+  - **Improved nginx permissions** — The nginx container now correctly sets ownership on all required directories at build time, preventing startup failures when running as a non-root user.
+  - **Docker Compose profile support** — The status API service uses the `status-panel` Docker Compose profile. The installer automatically includes the correct profile flag based on your configuration.
+  - **Installer status panel prompt** — The interactive installer now asks whether you want to enable the status dashboard and only prompts for Appwrite credentials when you opt in.
+</Update>
+
 <Update label="2026-04-10" description="v1.5.1" tags={["Security"]}>
   ## Security hardening and installer reliability
 

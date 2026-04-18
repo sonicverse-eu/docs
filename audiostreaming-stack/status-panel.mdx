@@ -3,7 +3,23 @@ title: Real-time operator status panel and dashboard
 description: Monitor live listener counts, Docker container health, and recent alerts using the real-time operator dashboard built with Flask and deployed on Next.js.
 ---
 
-The status panel consists of two parts: a Flask API backend (`status-api`) running inside the Docker stack, and a Next.js frontend (`dashboard`) designed to be deployed on Appwrite Sites.
+The status panel is an optional component consisting of two parts: a Flask API backend (`status-api`) running inside the Docker stack, and a Next.js frontend (`dashboard`) designed to be deployed on Appwrite Sites. The API is disabled by default and must be explicitly enabled.
+
+## Enabling the status panel
+
+Set `ENABLE_STATUS_PANEL=1` in your `.env` file to include the status API service. The interactive installer asks whether you want to enable it during setup.
+
+If you manage the stack with `docker compose` directly instead of the installer, start it with the `status-panel` profile:
+
+```bash
+docker compose --profile status-panel up -d
+```
+
+When the status panel is disabled (the default), nginx automatically removes the `/api/` proxy routes from its configuration at startup. No API endpoints are exposed.
+
+<Info>
+  Existing deployments that already use the status panel need to add `ENABLE_STATUS_PANEL=1` to their `.env` file after upgrading. Without it, the status API service will not start and `/api/` routes will return a 404.
+</Info>
 
 ## Features
 
@@ -31,7 +47,7 @@ No manual configuration is needed if you already set these values in your `.env`
 
 ## API backend
 
-The API backend runs as a Docker container in the stack and is proxied through Nginx at `/api/`. It provides endpoints for:
+When enabled, the API backend runs as a Docker container in the stack and is proxied through Nginx at `/api/`. It provides endpoints for:
 
 - Stream health and listener statistics
 - Docker container status
@@ -79,9 +95,11 @@ Write operations (managing emergency audio, restarting services) require a role 
 
 | Variable | Description | Default |
 |---|---|---|
-| `APPWRITE_ENDPOINT` | Appwrite API endpoint | `https://cloud.appwrite.io/v1` |
+| `ENABLE_STATUS_PANEL` | Set to `1` to run the status API and expose `/api/` through nginx | `0` |
+| `APPWRITE_ENDPOINT` | Appwrite API endpoint | — |
 | `APPWRITE_PROJECT_ID` | Appwrite project ID | — |
 | `APPWRITE_TEAM_ID` | Team ID (required when `APPWRITE_PROJECT_ID` is set) — only members get access | — |
+| `STATUS_PANEL_CORS_ORIGIN` | Dashboard URL(s) for CORS, comma-separated | — |
 | `STATUS_PANEL_HOST` | Bind host for the API server (auto-detects container IP in Docker) | `127.0.0.1` |
 | `STATUS_PANEL_WRITE_ROLES` | Roles allowed to manage emergency audio | `owner,admin` |
 
