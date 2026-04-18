@@ -3,6 +3,28 @@ title: Audio streaming stack changelog and releases
 description: Version history for the audio streaming stack covering new features, security patches, bug fixes, breaking changes, and step-by-step upgrade instructions.
 ---
 
+<Update label="2026-04-18" description="v1.5.3" tags={["Security"]}>
+  ## Status API path injection fix and credential hardening
+
+  This patch fixes a path injection vulnerability in the emergency audio API endpoints and removes insecure built-in credential defaults from the Status API and Analytics services.
+
+  ### Breaking changes
+
+  - **`ICECAST_ADMIN_USER` and `ICECAST_ADMIN_PASSWORD` are now required** — The Status API and Analytics services no longer fall back to built-in default credentials. If these variables are not set in your `.env` file, Icecast admin endpoints will return an error. The installer already generates these values, so existing deployments created with `install.sh` are unaffected.
+
+  ### Security fixes
+
+  - **Emergency audio path injection** — File list, upload, and delete operations for emergency audio now use canonicalized paths restricted to a fixed set of expected filenames (`fallback.mp3`, `fallback.ogg`, etc.). Previously, crafted filenames could reference files outside the emergency audio directory.
+  - **Removed built-in Icecast credential defaults** — The Status API and Analytics tracker no longer default to `admin` / `changeme` for Icecast connections. Credentials must be explicitly configured via `ICECAST_ADMIN_USER` and `ICECAST_ADMIN_PASSWORD`.
+  - **Suppressed raw exception text in API responses** — Error responses from the Status API container, command, and Icecast handlers no longer leak internal exception details to clients.
+
+  ### Updates
+
+  - Added top-level `permissions: contents: read` to the lint and Docker build CI workflows for least-privilege enforcement.
+
+  **Full changelog**: [v1.5.2...v1.5.3](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.5.2...v1.5.3)
+</Update>
+
 <Update label="2026-04-17" description="v1.5.2" tags={["Release"]}>
   ## Optional status panel and installer reliability
 
