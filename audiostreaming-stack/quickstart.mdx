@@ -113,6 +113,14 @@ Pre-built images are published to both Docker Hub (primary) and GitHub Container
     ```bash
     docker compose up -d
     ```
+
+    If you enabled the optional status panel (`ENABLE_STATUS_PANEL=1` in `.env`), include the profile flag:
+
+    ```bash
+    docker compose --profile status-panel up -d
+    ```
+
+    The interactive installer handles this automatically.
   </Step>
   <Step title="Connect your studio encoder">
     Configure [BUTT](https://danielnoethen.de/butt/) or any Icecast-compatible encoder:
@@ -216,6 +224,14 @@ git pull origin main
 docker compose pull
 docker compose build
 docker compose up -d --remove-orphans
+```
+
+If you use the status panel, add `--profile status-panel` to each `docker compose` command:
+
+```bash
+docker compose --profile status-panel pull
+docker compose --profile status-panel build
+docker compose --profile status-panel up -d --remove-orphans
 ```
 
 <Warning>
