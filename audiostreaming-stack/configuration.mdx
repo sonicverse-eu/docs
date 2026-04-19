@@ -28,9 +28,9 @@ The installer (`./install.sh`) auto-generates secure passwords for Icecast and h
 | `ICECAST_ADMIN_USER` | Icecast admin panel username | Required |
 | `ICECAST_ADMIN_PASSWORD` | Icecast admin panel password | Required |
 | `ICECAST_HOSTNAME` | Public hostname where listeners access streams | `stream.example.com` |
+| `ICECAST_MAX_LISTENERS` | Maximum concurrent listeners across all mount points | `500` |
 
 <Warning>Since v1.5.3, `ICECAST_ADMIN_USER` and `ICECAST_ADMIN_PASSWORD` are required. The Status API and Analytics services will not connect to Icecast admin endpoints without them. The installer auto-generates these values, so existing deployments created with `install.sh` are unaffected.</Warning>
-| `ICECAST_MAX_LISTENERS` | Maximum concurrent listeners across all mount points | `500` |
 
 ## Liquidsoap harbor
 
