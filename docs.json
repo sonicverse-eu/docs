@@ -61,7 +61,8 @@
           {
             "group": "Updates",
             "pages": [
-              "audiostreaming-stack/changelog"
+              "audiostreaming-stack/changelog",
+              "audiostreaming-stack/roadmap"
             ]
           }
         ]
