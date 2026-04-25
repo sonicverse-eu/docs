@@ -66,6 +66,23 @@ Ensure the Nginx container is running, as certbot uses it for the ACME challenge
 docker compose restart nginx certbot
 ```
 
+### Nginx did not pick up the renewed certificate
+
+Since v1.5.4, Nginx reloads itself automatically when certbot deploys a new certificate. The reload is triggered by a marker file at `/etc/letsencrypt/.nginx-reload` that certbot writes via `--deploy-hook`. If listeners still see an old certificate:
+
+1. Confirm the marker was written during the last renewal:
+   ```bash
+   docker compose exec certbot ls -l /etc/letsencrypt/.nginx-reload
+   ```
+2. Check the nginx logs for a reload message:
+   ```bash
+   docker compose logs nginx | grep -i "Certificate update detected"
+   ```
+3. If the marker exists but nginx has not reloaded, restart the nginx container manually:
+   ```bash
+   docker compose restart nginx
+   ```
+
 ## HLS stream not working
 
 If `/hls/live.m3u8` returns a 404 or fails to play:

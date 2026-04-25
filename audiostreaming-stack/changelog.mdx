@@ -3,6 +3,38 @@ title: Audio streaming stack changelog and releases
 description: Version history for the audio streaming stack covering new features, security patches, bug fixes, breaking changes, and step-by-step upgrade instructions.
 ---
 
+<Update label="2026-04-24" description="v1.5.4" tags={["Release"]}>
+  ## Zero-downtime certificate renewal and resilient installer
+
+  This release makes SSL certificate renewal fully automatic and removes the installer's dependency on the system `/tmp` directory. Nginx now reloads itself the moment a new Let's Encrypt certificate is deployed, so HTTPS listeners keep working without operator intervention.
+
+  ### New features
+
+  - **Automatic nginx reload on certificate renewal** — Certbot now writes a reload marker file (`/etc/letsencrypt/.nginx-reload`) via a `--deploy-hook` each time a certificate is issued or renewed. The Nginx container watches this marker in the background and reloads its configuration automatically, picking up the new certificate without a container restart or manual `docker compose restart`.
+  - **Initial certificate bootstrap inside certbot** — If no certificate exists for `ICECAST_HOSTNAME` when the stack starts, the certbot container attempts an initial issuance automatically using the webroot challenge. You can still run `./init-letsencrypt.sh` manually for first-time setup or troubleshooting.
+  - **Installer uses a cache directory instead of `/tmp`** — The one-line installer now clones into `${XDG_CACHE_HOME:-$HOME/.cache}/audiostreaming-stack-installer/clone-<timestamp>-<pid>` instead of `/tmp/audiostreaming-stack-<timestamp>`. This prevents failures on systems with a read-only, noexec, or space-constrained `/tmp` and keeps the installer cache available between runs.
+
+  ### Updates
+
+  - **All services load `.env` via `env_file`** — The `icecast`, `liquidsoap`, `nginx`, `certbot`, `status-api`, and `analytics` services now include `env_file: .env` in `docker-compose.yml`. Variables defined in `.env` are now available inside every container without duplicating `environment:` entries, which simplifies the certbot entrypoint and the nginx reload watcher.
+  - **`init-letsencrypt.sh` writes the reload marker** — Initial certificate requests now pass `--deploy-hook` so the first issuance triggers an nginx reload immediately, without waiting for the periodic certbot renewal loop.
+  - **Least-privilege CI permissions** — The `docker-build-push` and `lint` GitHub Actions workflows now declare top-level `permissions: contents: read` on each job for least-privilege enforcement.
+
+  ### Upgrade notes
+
+  No breaking changes. Running `./install.sh` on an existing deployment picks up the new certbot and nginx images automatically. If you update manually:
+
+  ```bash
+  git pull origin main
+  docker compose pull
+  docker compose up -d --remove-orphans
+  ```
+
+  Existing certificates under `./certbot/conf/live/<hostname>/` continue to work. The first renewal after upgrade creates the reload marker and validates the automatic reload flow.
+
+  **Full changelog**: [v1.5.3...v1.5.4](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.5.3...v1.5.4)
+</Update>
+
 <Update label="2026-04-18" description="v1.5.3" tags={["Security"]}>
   ## Status API path injection fix and credential hardening
 
