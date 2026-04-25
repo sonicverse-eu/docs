@@ -28,7 +28,7 @@ The fastest way to get started. This command clones the repository and runs the 
 bash <(curl -fsSL https://sonicverse.short.gy/install-audiostack)
 ```
 
-This is equivalent to the "minimal deployment" below and works from any directory.
+This is equivalent to the "minimal deployment" below and works from any directory. The installer clones into `${XDG_CACHE_HOME:-$HOME/.cache}/audiostreaming-stack-installer/clone-<timestamp>-<pid>`, so it does not depend on the system `/tmp` directory and works on hosts where `/tmp` is read-only, `noexec`, or space-constrained.
 
 ## Option B: Interactive installer
 
