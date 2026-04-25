@@ -3,6 +3,24 @@ title: Audio streaming stack changelog and releases
 description: Version history for the audio streaming stack covering new features, security patches, bug fixes, breaking changes, and step-by-step upgrade instructions.
 ---
 
+<Update label="2026-04-24" description="Certbot and nginx reliability" tags={["Update"]}>
+  ## Automatic SSL reloads and installer polish
+
+  This update improves how the stack handles Let's Encrypt certificate renewals and removes reliance on the system `/tmp` directory during installation and runtime.
+
+  ### Updates
+
+  - **Automatic nginx reload on certificate renewal** — Certbot now runs with a deploy hook that signals nginx after each successful renewal. Nginx watches for the signal and reloads its configuration without requiring a manual restart, so new certificates take effect immediately.
+  - **`.env` file auto-loaded by all services** — Every service in the stack now reads variables from your `.env` file automatically. You no longer need to export variables in your shell before running `docker compose`. See [configuration](/audiostreaming-stack/configuration) for the full list of supported variables.
+  - **Installer no longer uses `/tmp`** — The remote `curl | bash` installer now clones into your user cache directory (`$XDG_CACHE_HOME` or `~/.cache`) instead of `/tmp`, avoiding failures on systems that mount `/tmp` as `noexec` or clear it aggressively.
+
+  ### Bug fixes
+
+  - **Nginx startup on non-root containers** — Temporary file paths and the PID file now live under `/var/cache/nginx` and `/var/run/nginx`, fixing permission errors seen on some hardened hosts.
+  - **Certbot directory detected during initial issuance** — `init-letsencrypt.sh` now links the `certbot/` directory from the installer's clone when running from a different working directory, so first-time certificate issuance succeeds without manual setup.
+  - **Required hostname validation** — The certbot service now fails fast with a clear error if `ICECAST_HOSTNAME` is unset, instead of silently skipping certificate issuance.
+</Update>
+
 <Update label="2026-04-18" description="v1.5.3" tags={["Security"]}>
   ## Status API path injection fix and credential hardening
 
