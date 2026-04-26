@@ -3,6 +3,28 @@ title: Audio streaming stack changelog and releases
 description: Version history for the audio streaming stack covering new features, security patches, bug fixes, breaking changes, and step-by-step upgrade instructions.
 ---
 
+<Update label="2026-04-25" description="v1.7.2" tags={["Release"]}>
+  ## Standardized install location and certbot reliability
+
+  This release standardizes where the stack installs on disk, hardens the Let's Encrypt setup flow, and makes the one-line installer safer to re-run.
+
+  ### New features
+
+  - **Standardized installation directory** — The installer now installs the stack to `/opt/audiostreamingstack` by default. When run interactively from another directory, it offers to move the installation there. See the [quickstart](/audiostreaming-stack/quickstart) for details.
+
+  ### Bug fixes
+
+  - **Safer one-line installer re-runs** — When using `curl | bash`, the installer now clones to a temporary directory first and only replaces an existing installation after a successful clone. If the clone fails (for example, due to a network issue), your existing installation is left intact.
+  - **Correct certbot file permissions** — Let's Encrypt certificate directories and files now receive separate permissions (`755` for directories, `644` for files), preventing world-readable private keys.
+  - **More reliable nginx restart after certificate issuance** — Nginx no longer attempts to `chmod` the read-only Let's Encrypt mount on startup, eliminating spurious errors and improving reload reliability.
+
+  ### Updates
+
+  - **Renamed certbot environment variables** — The certbot service in `docker-compose.yml` now reads `HOSTNAME` and `EMAIL` instead of `ICECAST_HOSTNAME` and `STATION_ADMIN_EMAIL`. The installer writes both sets of variables to your `.env` file, so existing deployments continue to work without changes.
+
+  **Full changelog**: [v1.6.2...v1.7.2](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.6.2...v1.7.2)
+</Update>
+
 <Update label="2026-04-18" description="v1.5.3" tags={["Security"]}>
   ## Status API path injection fix and credential hardening
 
