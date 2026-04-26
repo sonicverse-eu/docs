@@ -3,6 +3,29 @@ title: Audio streaming stack changelog and releases
 description: Version history for the audio streaming stack covering new features, security patches, bug fixes, breaking changes, and step-by-step upgrade instructions.
 ---
 
+<Update label="2026-04-25" description="v1.5.4" tags={["Release"]}>
+  ## Hardened certbot workflow and automatic nginx reloads
+
+  This release improves the SSL certificate workflow so renewals no longer require a manual nginx restart, and makes `init-letsencrypt.sh` safer to run alongside an already-running stack.
+
+  ### New features
+
+  - **Automatic nginx reload on certificate renewal** — Certbot now writes a deploy-hook marker (`certbot/conf/.nginx-reload`) on every successful issuance or renewal. The nginx container watches this marker and automatically re-renders its config and reloads with `nginx -s reload` when the marker changes. You no longer need to restart nginx manually after a renewal to pick up the new certificate.
+  - **Reuse running nginx for ACME challenges** — `./init-letsencrypt.sh` now detects whether the main `nginx` service is already running and reuses it for the HTTP-01 ACME challenge. If nginx is not running, the script falls back to the `acme-bootstrap` profile and starts a temporary, single-purpose `nginx-acme` container that does not collide with the main `sonicverse-nginx` container name.
+  - **Certbot directory caching for reinstalls** — When you re-run the installer, `init-letsencrypt.sh` now symlinks the existing `certbot/` directory from the installer cache (`~/.cache/audiostreaming-stack-installer/clone-*/certbot`) so previously issued certificates and account data are preserved across reinstalls.
+
+  ### Bug fixes
+
+  - **No more stale certificates after renewal** — Previously, nginx kept serving the old certificate until the container was manually restarted. The new marker-based reload watcher fixes this.
+  - **Removed certbot container name conflicts** — The installer now removes any pre-existing `sonicverse-certbot` container with a different ID before issuing certificates, preventing `Conflict. The container name "/sonicverse-certbot" is already in use` errors.
+
+  ### Upgrade notes
+
+  No configuration changes are required. After upgrading, the next `./init-letsencrypt.sh` run (or the next scheduled renewal) will populate the reload marker and the running nginx container will pick it up automatically.
+
+  **Full changelog**: [v1.5.3...v1.5.4](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.5.3...v1.5.4)
+</Update>
+
 <Update label="2026-04-18" description="v1.5.3" tags={["Security"]}>
   ## Status API path injection fix and credential hardening
 

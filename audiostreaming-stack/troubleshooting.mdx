@@ -66,6 +66,16 @@ Ensure the Nginx container is running, as certbot uses it for the ACME challenge
 docker compose restart nginx certbot
 ```
 
+### Nginx still serving the old certificate after renewal
+
+Since v1.5.4, nginx watches `certbot/conf/.nginx-reload` and reloads automatically when certbot writes a new certificate. If you upgraded to v1.5.4 and nginx is still serving the previous certificate, force a reload once to bootstrap the watcher:
+
+```bash
+docker compose exec nginx nginx -s reload
+```
+
+Subsequent renewals will be picked up automatically without manual intervention.
+
 ## HLS stream not working
 
 If `/hls/live.m3u8` returns a 404 or fails to play:
