@@ -3,6 +3,57 @@ title: Audio streaming stack changelog and releases
 description: Version history for the audio streaming stack covering new features, security patches, bug fixes, breaking changes, and step-by-step upgrade instructions.
 ---
 
+<Update label="2026-04-25" description="v1.7.2" tags={["Release"]}>
+  ## Standardized install location and certbot hardening
+
+  This release moves the default installation to a predictable system location, makes remote installs safer to re-run, and tightens TLS certificate permissions.
+
+  ### New features
+
+  - **Standardized installation directory** — Fresh installs now deploy to `/opt/audiostreamingstack` by default. If an existing installation is detected at that path during a `curl | bash` run, the installer prompts before replacing it. See [quickstart](/audiostreaming-stack/quickstart) for the updated install flow.
+
+  ### Bug fixes
+
+  - **Safer remote installs** — The installer now preserves your existing installation if `git clone` fails partway through a `curl | bash` run, so a transient network error no longer leaves you with a half-installed stack.
+  - **Tighter Let's Encrypt key permissions** — Certificate file permissions are now applied with separate `find` commands, ensuring private keys are never left world-readable after issuance or renewal.
+  - **Removed redundant chmod on read-only certbot mount** — Eliminated an ineffective permission change that produced misleading errors when `/etc/letsencrypt` was mounted read-only.
+
+  **Full changelog**: [v1.6.2...v1.7.2](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.6.2...v1.7.2)
+</Update>
+
+<Update label="2026-04-24" description="v1.6.2" tags={["Release"]}>
+  ## Per-service environment files for certbot
+
+  ### Updates
+
+  - **Per-service `.env` support** — Certbot and related services now load configuration from dedicated `.env` files, making it easier to manage credentials and renewal settings without editing `docker-compose.yml`. See [configuration](/audiostreaming-stack/configuration) for details.
+  - **Improved certbot directory setup** — The installer now creates and verifies the certbot working directories before first use, preventing certificate issuance failures on fresh hosts.
+
+  **Full changelog**: [v1.6.1...v1.6.2](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.6.1...v1.6.2)
+</Update>
+
+<Update label="2026-04-24" description="v1.6.1" tags={["Release"]}>
+  ## Certbot configuration improvements
+
+  ### Updates
+
+  - **Configurable certbot hostname and email** — Certbot now uses your station hostname and admin email from environment variables when issuing and renewing certificates, removing the need to edit certbot commands manually.
+  - **Nginx config validation before reload** — The certbot renewal flow now validates the nginx configuration before reloading, preventing service interruptions caused by invalid configs.
+
+  **Full changelog**: [v1.6.0...v1.6.1](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.6.0...v1.6.1)
+</Update>
+
+<Update label="2026-04-24" description="v1.6.0" tags={["Release"]}>
+  ## Reliable nginx startup and certbot reload flow
+
+  ### Bug fixes
+
+  - **Fixed nginx temp path conflicts** — Resolved nginx startup errors caused by temporary file paths that weren't writable in some container configurations.
+  - **Reliable certbot reload flow** — Certificate renewals now reload nginx using a flow that handles missing or stopped containers gracefully, preventing failed renewals from leaving nginx in a degraded state.
+
+  **Full changelog**: [v1.5.3...v1.6.0](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.5.3...v1.6.0)
+</Update>
+
 <Update label="2026-04-18" description="v1.5.3" tags={["Security"]}>
   ## Status API path injection fix and credential hardening
 
