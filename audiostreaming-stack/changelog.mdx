@@ -188,7 +188,7 @@ description: Version history for the audio streaming stack covering new features
   ### Updates
 
   - The `docker-compose.yml` now references Docker Hub image names (`docker.io/sonicverse/audiostreaming-stack-*`) instead of GHCR.
-  - The CI pipeline validates that images published to Docker Hub and GHCR have matching digests across `linux/amd64`, `linux/arm64`, and `linux/386` platforms, using per-platform digest comparison for more robust verification.
+  - The CI pipeline validates that images published to Docker Hub and GHCR have matching digests across `linux/amd64`, `linux/arm64`, and `linux/386` platforms. It uses per-platform digest comparison for more robust verification.
   - Contributing guidelines now reference the Code of Conduct.
 
   ### Container registries
