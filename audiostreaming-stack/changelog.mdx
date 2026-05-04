@@ -28,16 +28,16 @@ description: Version history for the audio streaming stack covering new features
 <Update label="2026-04-17" description="v1.5.2" tags={["Release"]}>
   ## Optional status panel and installer reliability
 
-  The status dashboard is now fully optional. A new `ENABLE_STATUS_PANEL` environment variable controls whether the status API runs, making minimal deployments simpler and reducing resource usage when you don't need the operator dashboard.
+  The status dashboard is now fully optional. A new `ENABLE_STATUS_PANEL` environment variable controls whether the Status API runs, making minimal deployments simpler and reducing resource usage when you don't need the operator dashboard.
 
   ### New features
 
-  - **Optional status panel** — The status API and its nginx routes are now disabled by default. Set `ENABLE_STATUS_PANEL=1` in your `.env` file to enable it. The installer prompts you during setup. See [configuration](/audiostreaming-stack/configuration) for details.
+  - **Optional status panel** — The Status API and its Nginx routes are now disabled by default. Set `ENABLE_STATUS_PANEL=1` in your `.env` file to enable it. The installer prompts you during setup. See [configuration](/audiostreaming-stack/configuration) for details.
 
   ### Bug fixes
 
-  - **Fixed nginx startup on non-root containers** — Resolved permission errors that could prevent nginx from starting by moving temporary file paths to writable locations.
-  - **Fixed Let's Encrypt certificate name collisions** — Certificate issuance now uses a dedicated bootstrap nginx configuration, preventing container name conflicts when requesting new certificates.
+  - **Fixed Nginx startup on non-root containers** — Resolved permission errors that could prevent Nginx from starting by moving temporary file paths to writable locations.
+  - **Fixed Let's Encrypt certificate name collisions** — Certificate issuance now uses a dedicated bootstrap Nginx configuration, preventing container name conflicts when requesting new certificates.
   - **Improved installer container handling** — The installer now detects and removes conflicting container names before starting services, preventing failures during updates.
 
   **Full changelog**: [v1.5.1...v1.5.2](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.5.1...v1.5.2)
@@ -56,7 +56,7 @@ description: Version history for the audio streaming stack covering new features
 
   - **HTTPS enforcement for operator endpoints** — HTTP requests to `/api/` and `/icecast-admin/` are now redirected to HTTPS with a `308 Permanent Redirect`. Public media endpoints (`/hls/`, `/listen/`) remain available on HTTP for player compatibility.
   - **Alert ingestion restricted to internal networks** — The `/api/alert` endpoint is now restricted at the reverse proxy level to private and loopback IP addresses only. External requests receive a `403 Forbidden` response.
-  - **Safer status API bind host** — The status API no longer binds to all interfaces (`0.0.0.0`). It defaults to `127.0.0.1` and auto-detects the container IP when running inside Docker. You can override this with the `STATUS_PANEL_HOST` environment variable. See [configuration](/audiostreaming-stack/configuration) for details.
+  - **Safer Status API bind host** — The Status API no longer binds to all interfaces (`0.0.0.0`). It defaults to `127.0.0.1` and auto-detects the container IP when running inside Docker. You can override this with the `STATUS_PANEL_HOST` environment variable. See [configuration](/audiostreaming-stack/configuration) for details.
   - **Path traversal protection** — Emergency audio file deletion now validates file paths to prevent directory traversal attacks.
   - **Dashboard CVE fix** — Updated Next.js to 16.2.3 to address CVE-2026-23869.
 

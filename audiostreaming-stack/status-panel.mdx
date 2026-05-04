@@ -15,10 +15,10 @@ If you manage the stack with `docker compose` directly instead of the installer,
 docker compose --profile status-panel up -d
 ```
 
-When the status panel is disabled (the default), nginx automatically removes the `/api/` proxy routes from its configuration at startup. No API endpoints are exposed.
+When the status panel is disabled (the default), Nginx automatically removes the `/api/` proxy routes from its configuration at startup. No API endpoints are exposed.
 
 <Info>
-  Existing deployments that already use the status panel need to add `ENABLE_STATUS_PANEL=1` to their `.env` file after upgrading. Without it, the status API service will not start and `/api/` routes will return a 404.
+  Existing deployments that already use the status panel need to add `ENABLE_STATUS_PANEL=1` to their `.env` file after upgrading. Without it, the Status API service will not start and `/api/` routes will return a 404.
 </Info>
 
 ## Features
