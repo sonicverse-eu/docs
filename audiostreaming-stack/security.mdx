@@ -50,7 +50,7 @@ You can expect an acknowledgment within **3 business days** and initial triage w
 
 ## Container hardening
 
-All service containers (Status API, Nginx, Analytics, and Icecast) run as non-root users (UID 1000) by default. This limits the impact of a container escape by ensuring processes inside the container do not have root privileges on the host.
+All service containers (Status API, Nginx, Analytics, and Icecast) run as non-root users (UID 1000) by default. This limits the impact of a container escape: processes inside the container do not have root privileges on the host.
 
 ## Automated code analysis
 
