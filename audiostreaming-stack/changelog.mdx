@@ -3,6 +3,40 @@ title: Audio streaming stack changelog and releases
 description: Version history for the audio streaming stack covering new features, security patches, bug fixes, breaking changes, and step-by-step upgrade instructions.
 ---
 
+<Update label="2026-04-25" description="v1.6.0 – v1.7.2" tags={["Release", "Security"]}>
+  ## Safer installer, certificate workflow improvements, and credential hardening
+
+  This rollup covers v1.6.0 through v1.7.2. It overhauls the installer and Let's Encrypt workflow for safer upgrades and cleaner certificate renewals, standardizes a few environment variables, and tightens the Status API.
+
+  ### Breaking changes
+
+  - **Default install location changed** — The installer now installs to `/opt/audiostreamingstack` by default instead of the current working directory. Existing installations are detected and replaced atomically after confirmation, with running containers stopped first. See the [quickstart](/audiostreaming-stack/quickstart) for the updated flow.
+  - **Renamed `ICECAST_HOSTNAME` → `HOSTNAME`** — The Icecast service and Let's Encrypt bootstrap now read a single `HOSTNAME` variable. The installer maps your existing `ICECAST_HOSTNAME` to `HOSTNAME` automatically; if you manage `.env` by hand, update the variable name. See [configuration](/audiostreaming-stack/configuration) for details.
+  - **Renamed `STATION_ADMIN_EMAIL` / `LETSENCRYPT_EMAIL` → `EMAIL`** — Certificate issuance and Icecast now use a unified `EMAIL` variable. The installer sets this from `LETSENCRYPT_EMAIL` during upgrades.
+  - **`ICECAST_ADMIN_USER` and `ICECAST_ADMIN_PASSWORD` are required for status and analytics** — The Status API and analytics tracker no longer fall back to built-in default credentials when reading Icecast admin endpoints. The installer continues to generate these values for new deployments.
+
+  ### New features
+
+  - **`.env` file support across services** — Service configurations now load environment variables from a single `.env` file, simplifying upgrades and reducing duplication across containers. See [configuration](/audiostreaming-stack/configuration).
+  - **Resilient installer with atomic upgrades** — When re-running the installer over an existing deployment, the new version is cloned into a temporary directory first. The previous installation is only replaced after a successful clone, so failed updates leave your running deployment untouched.
+  - **Validated nginx reloads on certificate events** — After Let's Encrypt issues or renews a certificate, nginx is reloaded with a configuration validation step instead of a blind restart. This prevents brief outages when a renewal coincides with an invalid config.
+  - **Cached certbot directory linking** — On reinstall, the installer reuses an existing `certbot/conf` cache when available, avoiding unnecessary certificate re-issuance and speeding up redeployment.
+
+  ### Bug fixes
+
+  - **Certbot certificate cleanup** — Stale live, archive, and renewal certificate paths are now removed reliably during reinstall, preventing certificate name conflicts on subsequent issuance attempts.
+  - **Certbot directory permissions** — Certificate directories and files now have consistent permissions (755 for directories, 644 for files) after issuance, fixing intermittent permission errors when nginx reads renewed certs.
+  - **Nginx startup in detached mode** — Let's Encrypt bootstrap now starts nginx detached (`up -d`) instead of restarting an existing container, removing a race condition during first-time setup.
+
+  ### Security fixes
+
+  - **Emergency audio path canonicalization** — File list, upload, and delete operations for emergency audio canonicalize paths against a fixed allowlist of expected filenames. Crafted filenames can no longer escape the emergency audio directory.
+  - **Sanitized Status API error responses** — Errors returned by the Status API container, command, and Icecast handlers no longer expose internal exception details. Failure modes return generic messages, while detailed errors stay in server logs.
+  - **Removed built-in Icecast credential defaults** — The Status API and analytics tracker reject startup if `ICECAST_ADMIN_USER` / `ICECAST_ADMIN_PASSWORD` are missing, eliminating the risk of running against `admin` / `changeme`.
+
+  **Full changelog**: [v1.5.3...v1.7.2](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.5.3...v1.7.2)
+</Update>
+
 <Update label="2026-04-18" description="v1.5.3" tags={["Security"]}>
   ## Status API path injection fix and credential hardening
 
