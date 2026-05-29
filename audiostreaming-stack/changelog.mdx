@@ -3,6 +3,47 @@ title: Audio streaming stack changelog and releases
 description: Version history for the audio streaming stack covering new features, security patches, bug fixes, breaking changes, and step-by-step upgrade instructions.
 ---
 
+<Update label="2026-04-25" description="v1.7.2" tags={["Security", "Release"]}>
+  ## Safer installer, hardened TLS renewals, and required Icecast credentials
+
+  This release tightens the installer against partial failures, makes certificate renewals more reliable, and requires Icecast admin credentials for status and analytics access.
+
+  ### Breaking changes
+
+  - **Default install location changed to `/opt/audiostreamingstack`** — Fresh remote installs now deploy to `/opt/audiostreamingstack` by default. Existing installations are detected, stopped, and replaced atomically. See the [quickstart](/audiostreaming-stack/quickstart) for details.
+  - **Icecast admin credentials required for status and analytics** — The status and analytics services now require `ICECAST_ADMIN_USER` and `ICECAST_ADMIN_PASSWORD` to query Icecast. The installer continues to generate these automatically; existing deployments created with `install.sh` are unaffected.
+
+  ### New features
+
+  - **Hostname and email prompts for Let's Encrypt** — The installer now prompts for hostname and email during initial certificate issuance, and the compose file standardizes on `HOSTNAME` and `EMAIL` environment variables. See [configuration](/audiostreaming-stack/configuration) for details.
+  - **`.env` file support across services** — Service containers now load environment variables from a `.env` file at the project root, simplifying configuration across the stack.
+
+  ### Bug fixes
+
+  - **Reliable certificate renewals** — Certbot renewals now trigger a validated nginx reload instead of a blind restart, so new certificates take effect without dropping listeners.
+  - **Safer installer reruns** — When upgrading an existing installation, the installer clones into a temporary directory first and only swaps it in on success. If the clone fails, your existing installation is left untouched.
+  - **Stricter permissions on certificate files** — Certificate directories and files are now set to safe defaults (755 / 644) after issuance and renewal.
+
+  ### Security fixes
+
+  - **Hardened status API responses** — Emergency audio file handling now uses canonicalized paths, and error responses no longer leak backend exception details to clients.
+
+  **Full changelog**: [v1.5.3...v1.7.2](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.5.3...v1.7.2)
+</Update>
+
+<Update label="2026-04-24" description="v1.6.0" tags={["Release"]}>
+  ## Improved nginx and certbot reliability
+
+  This release improves how nginx handles temporary files and how Let's Encrypt certificates are issued and renewed.
+
+  ### Bug fixes
+
+  - **Writable nginx temp paths** — Nginx now uses in-container writable locations for temporary and cache files, fixing permission errors on non-root containers.
+  - **Validated nginx reloads** — Certbot issuance and renewals now validate the nginx configuration before reloading, preventing broken reloads from taking down the proxy.
+
+  **Full changelog**: [v1.5.3...v1.6.0](https://github.com/sonicverse-eu/audiostreaming-stack/compare/v1.5.3...v1.6.0)
+</Update>
+
 <Update label="2026-04-18" description="v1.5.3" tags={["Security"]}>
   ## Status API path injection fix and credential hardening
 
