@@ -56,12 +56,12 @@ If the stream connects but you hear dead air:
 
 ### Certificate renewal fails
 
-Check certbot logs:
+Check Certbot logs:
 ```bash
 docker compose logs certbot
 ```
 
-Ensure the Nginx container is running, as certbot uses it for the ACME challenge. Restart the stack if needed:
+Ensure the Nginx container is running, as Certbot uses it for the ACME challenge. Restart the stack if needed:
 ```bash
 docker compose restart nginx certbot
 ```
